@@ -123,12 +123,14 @@ metrics:
 
   - name: units_on_hand
     label: Units on hand (end of period)
+    description: Pieces in stock on the last day of the period.
     type: simple
     type_params: {measure: closing_units}
     config: {meta: {owner: Merchandising, certified: true}}
 
   - name: inventory_cost_on_hand
     label: Inventory cost on hand (end of period)
+    description: What was paid for the pieces in stock on the last day of the period, USD.
     type: simple
     type_params: {measure: closing_cost}
     config: {meta: {owner: Merchandising, certified: true}}

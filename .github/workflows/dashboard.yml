@@ -1,0 +1,50 @@
+name: dashboard
+
+on:
+  pull_request:
+    paths:
+      - "dashboard/**"
+      - ".github/workflows/dashboard.yml"
+  push:
+    branches: [main]
+    paths:
+      - "dashboard/**"
+  workflow_dispatch:
+
+concurrency:
+  group: dashboard-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: dashboard
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: dashboard/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type-check and build
+        run: npm run build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dashboard-site
+          path: dashboard/dist/
+          retention-days: 14

@@ -1,0 +1,1693 @@
+{
+ "source": "MetricFlow saved queries in atelier_analytics/models/semantic/saved_queries.yml",
+ "data_window": {
+  "first_sale_date": "2021-06-01",
+  "last_sale_date": "2026-11-21"
+ },
+ "metrics": {
+  "aged_inventory_share": {
+   "label": "Aged inventory share",
+   "description": "Share of end-of-period units that have been on the floor more than 90 days.",
+   "owner": "Merchandising",
+   "certified": true
+  },
+  "average_days_to_sell": {
+   "label": "Average days to sell",
+   "description": "Mean days from reaching the floor to sale, for pieces sold in the period.",
+   "owner": "Merchandising",
+   "certified": true
+  },
+  "average_selling_price": {
+   "label": "Average selling price",
+   "description": "Net sales / units sold.",
+   "owner": "Commercial Analytics",
+   "certified": true
+  },
+  "comp_sales_growth": {
+   "label": "Comp sales growth",
+   "description": "Comparable sales growth, all channels including online. comp_sales_ty / comp_sales_ly - 1. A location is comp after 13 full fiscal months open and only on days whose same calendar date last year is in history. Year-to-date periods compare the same days in both years.",
+   "owner": "Finance",
+   "certified": true
+  },
+  "comp_store_sales_growth": {
+   "label": "Comp store sales growth",
+   "description": "Comparable sales growth for physical boutiques only (excludes Online). This is the headline comp figure reported to leadership.",
+   "owner": "Finance",
+   "certified": true
+  },
+  "gross_margin_pct": {
+   "label": "Gross margin %",
+   "description": "Gross margin / net sales.",
+   "owner": "Commercial Analytics",
+   "certified": true
+  },
+  "inventory_cost_on_hand": {
+   "label": "Inventory cost on hand (end of period)",
+   "description": "What was paid for the pieces in stock on the last day of the period, USD.",
+   "owner": "Merchandising",
+   "certified": true
+  },
+  "net_sales": {
+   "label": "Net sales",
+   "description": "Sale price after negotiated discount, USD, by sale date.",
+   "owner": "Commercial Analytics",
+   "certified": true
+  },
+  "sell_through_rate": {
+   "label": "Sell-through rate",
+   "description": "Units sold / (units on hand at the start of the period + units received in the period). Measured by stock pool, so online sales count against New York stock.",
+   "owner": "Merchandising",
+   "certified": true
+  },
+  "units_on_hand": {
+   "label": "Units on hand (end of period)",
+   "description": "Pieces in stock on the last day of the period.",
+   "owner": "Merchandising",
+   "certified": true
+  },
+  "units_sold": {
+   "label": "Units sold",
+   "description": "Pieces sold.",
+   "owner": "Commercial Analytics",
+   "certified": true
+  }
+ },
+ "executive_scorecard": [
+  {
+   "fiscal_year": "FY2021",
+   "net_sales": 7039820.0,
+   "units_sold": 268.0,
+   "gross_margin_pct": 0.394999,
+   "average_selling_price": 26267.985075,
+   "average_days_to_sell": 10.94403,
+   "comp_store_sales_growth": null,
+   "comp_sales_growth": null
+  },
+  {
+   "fiscal_year": "FY2022",
+   "net_sales": 89793570.0,
+   "units_sold": 3909.0,
+   "gross_margin_pct": 0.395361,
+   "average_selling_price": 22970.982348,
+   "average_days_to_sell": 35.415963,
+   "comp_store_sales_growth": -0.062118,
+   "comp_sales_growth": -0.054081
+  },
+  {
+   "fiscal_year": "FY2023",
+   "net_sales": 89867020.0,
+   "units_sold": 4054.0,
+   "gross_margin_pct": 0.39525,
+   "average_selling_price": 22167.493833,
+   "average_days_to_sell": 36.331524,
+   "comp_store_sales_growth": -0.014393,
+   "comp_sales_growth": 0.000818
+  },
+  {
+   "fiscal_year": "FY2024",
+   "net_sales": 100185670.0,
+   "units_sold": 4375.0,
+   "gross_margin_pct": 0.395057,
+   "average_selling_price": 22899.581714,
+   "average_days_to_sell": 36.962286,
+   "comp_store_sales_growth": 0.101393,
+   "comp_sales_growth": 0.112048
+  },
+  {
+   "fiscal_year": "FY2025",
+   "net_sales": 100623260.0,
+   "units_sold": 4428.0,
+   "gross_margin_pct": 0.395259,
+   "average_selling_price": 22724.31346,
+   "average_days_to_sell": 37.805556,
+   "comp_store_sales_growth": 0.013985,
+   "comp_sales_growth": 0.006872
+  },
+  {
+   "fiscal_year": "FY2026",
+   "net_sales": 106588190.0,
+   "units_sold": 4531.0,
+   "gross_margin_pct": 0.395523,
+   "average_selling_price": 23524.208784,
+   "average_days_to_sell": 36.700066,
+   "comp_store_sales_growth": 0.051385,
+   "comp_sales_growth": 0.05928
+  },
+  {
+   "fiscal_year": "FY2027",
+   "net_sales": 42128290.0,
+   "units_sold": 1801.0,
+   "gross_margin_pct": 0.39531,
+   "average_selling_price": 23391.610217,
+   "average_days_to_sell": 38.274292,
+   "comp_store_sales_growth": 0.062919,
+   "comp_sales_growth": 0.041416
+  }
+ ],
+ "inventory_health": [
+  {
+   "fiscal_year": "FY2021",
+   "stock_pool": "Los Angeles",
+   "sell_through_rate": 0.368132,
+   "units_on_hand": 115.0,
+   "inventory_cost_on_hand": 1872720.0,
+   "aged_inventory_share": 0.0
+  },
+  {
+   "fiscal_year": "FY2021",
+   "stock_pool": "Miami",
+   "sell_through_rate": 0.402235,
+   "units_on_hand": 107.0,
+   "inventory_cost_on_hand": 1391040.0,
+   "aged_inventory_share": 0.0
+  },
+  {
+   "fiscal_year": "FY2021",
+   "stock_pool": "New York City",
+   "sell_through_rate": 0.431438,
+   "units_on_hand": 170.0,
+   "inventory_cost_on_hand": 1994040.0,
+   "aged_inventory_share": 0.0
+  },
+  {
+   "fiscal_year": "FY2022",
+   "stock_pool": "Los Angeles",
+   "sell_through_rate": 0.920103,
+   "units_on_hand": 93.0,
+   "inventory_cost_on_hand": 974220.0,
+   "aged_inventory_share": 0.043011
+  },
+  {
+   "fiscal_year": "FY2022",
+   "stock_pool": "Miami",
+   "sell_through_rate": 0.917666,
+   "units_on_hand": 103.0,
+   "inventory_cost_on_hand": 1351080.0,
+   "aged_inventory_share": 0.048544
+  },
+  {
+   "fiscal_year": "FY2022",
+   "stock_pool": "New York City",
+   "sell_through_rate": 0.890411,
+   "units_on_hand": 208.0,
+   "inventory_cost_on_hand": 2661840.0,
+   "aged_inventory_share": 0.0625
+  },
+  {
+   "fiscal_year": "FY2023",
+   "stock_pool": "Los Angeles",
+   "sell_through_rate": 0.901734,
+   "units_on_hand": 119.0,
+   "inventory_cost_on_hand": 1592040.0,
+   "aged_inventory_share": 0.084034
+  },
+  {
+   "fiscal_year": "FY2023",
+   "stock_pool": "Miami",
+   "sell_through_rate": 0.898868,
+   "units_on_hand": 134.0,
+   "inventory_cost_on_hand": 1836780.0,
+   "aged_inventory_share": 0.134328
+  },
+  {
+   "fiscal_year": "FY2023",
+   "stock_pool": "New York City",
+   "sell_through_rate": 0.905419,
+   "units_on_hand": 185.0,
+   "inventory_cost_on_hand": 2455440.0,
+   "aged_inventory_share": 0.140541
+  },
+  {
+   "fiscal_year": "FY2024",
+   "stock_pool": "Los Angeles",
+   "sell_through_rate": 0.889793,
+   "units_on_hand": 149.0,
+   "inventory_cost_on_hand": 1987740.0,
+   "aged_inventory_share": 0.100671
+  },
+  {
+   "fiscal_year": "FY2024",
+   "stock_pool": "Miami",
+   "sell_through_rate": 0.910795,
+   "units_on_hand": 119.0,
+   "inventory_cost_on_hand": 1753500.0,
+   "aged_inventory_share": 0.05042
+  },
+  {
+   "fiscal_year": "FY2024",
+   "stock_pool": "New York City",
+   "sell_through_rate": 0.930133,
+   "units_on_hand": 147.0,
+   "inventory_cost_on_hand": 1905900.0,
+   "aged_inventory_share": 0.061224
+  },
+  {
+   "fiscal_year": "FY2025",
+   "stock_pool": "Los Angeles",
+   "sell_through_rate": 0.904588,
+   "units_on_hand": 131.0,
+   "inventory_cost_on_hand": 1749960.0,
+   "aged_inventory_share": 0.10687
+  },
+  {
+   "fiscal_year": "FY2025",
+   "stock_pool": "Miami",
+   "sell_through_rate": 0.900298,
+   "units_on_hand": 134.0,
+   "inventory_cost_on_hand": 1492560.0,
+   "aged_inventory_share": 0.126866
+  },
+  {
+   "fiscal_year": "FY2025",
+   "stock_pool": "New York City",
+   "sell_through_rate": 0.912702,
+   "units_on_hand": 189.0,
+   "inventory_cost_on_hand": 2570220.0,
+   "aged_inventory_share": 0.126984
+  },
+  {
+   "fiscal_year": "FY2026",
+   "stock_pool": "Los Angeles",
+   "sell_through_rate": 0.887097,
+   "units_on_hand": 154.0,
+   "inventory_cost_on_hand": 2245440.0,
+   "aged_inventory_share": 0.136364
+  },
+  {
+   "fiscal_year": "FY2026",
+   "stock_pool": "Miami",
+   "sell_through_rate": 0.915842,
+   "units_on_hand": 119.0,
+   "inventory_cost_on_hand": 1907400.0,
+   "aged_inventory_share": 0.058824
+  },
+  {
+   "fiscal_year": "FY2026",
+   "stock_pool": "New York City",
+   "sell_through_rate": 0.915086,
+   "units_on_hand": 188.0,
+   "inventory_cost_on_hand": 2765880.0,
+   "aged_inventory_share": 0.101064
+  },
+  {
+   "fiscal_year": "FY2027",
+   "stock_pool": "Los Angeles",
+   "sell_through_rate": 0.842271,
+   "units_on_hand": 100.0,
+   "inventory_cost_on_hand": 1588860.0,
+   "aged_inventory_share": 0.11
+  },
+  {
+   "fiscal_year": "FY2027",
+   "stock_pool": "Miami",
+   "sell_through_rate": 0.84058,
+   "units_on_hand": 99.0,
+   "inventory_cost_on_hand": 1441980.0,
+   "aged_inventory_share": 0.070707
+  },
+  {
+   "fiscal_year": "FY2027",
+   "stock_pool": "New York City",
+   "sell_through_rate": 0.755578,
+   "units_on_hand": 241.0,
+   "inventory_cost_on_hand": 3427140.0,
+   "aged_inventory_share": 0.091286
+  }
+ ],
+ "sales_trend": [
+  {
+   "month": "2021-06-01",
+   "channel": "Online",
+   "net_sales": 1181100.0,
+   "units_sold": 50.0,
+   "gross_margin_pct": 0.396596
+  },
+  {
+   "month": "2021-06-01",
+   "channel": "Store",
+   "net_sales": 5858720.0,
+   "units_sold": 218.0,
+   "gross_margin_pct": 0.394677
+  },
+  {
+   "month": "2021-07-01",
+   "channel": "Online",
+   "net_sales": 788450.0,
+   "units_sold": 42.0,
+   "gross_margin_pct": 0.395092
+  },
+  {
+   "month": "2021-07-01",
+   "channel": "Store",
+   "net_sales": 5576730.0,
+   "units_sold": 221.0,
+   "gross_margin_pct": 0.39627
+  },
+  {
+   "month": "2021-08-01",
+   "channel": "Online",
+   "net_sales": 787080.0,
+   "units_sold": 36.0,
+   "gross_margin_pct": 0.396097
+  },
+  {
+   "month": "2021-08-01",
+   "channel": "Store",
+   "net_sales": 4734190.0,
+   "units_sold": 221.0,
+   "gross_margin_pct": 0.395588
+  },
+  {
+   "month": "2021-09-01",
+   "channel": "Online",
+   "net_sales": 1344010.0,
+   "units_sold": 48.0,
+   "gross_margin_pct": 0.394603
+  },
+  {
+   "month": "2021-09-01",
+   "channel": "Store",
+   "net_sales": 6481370.0,
+   "units_sold": 242.0,
+   "gross_margin_pct": 0.396192
+  },
+  {
+   "month": "2021-10-01",
+   "channel": "Online",
+   "net_sales": 1277900.0,
+   "units_sold": 51.0,
+   "gross_margin_pct": 0.395915
+  },
+  {
+   "month": "2021-10-01",
+   "channel": "Store",
+   "net_sales": 6237480.0,
+   "units_sold": 299.0,
+   "gross_margin_pct": 0.394294
+  },
+  {
+   "month": "2021-11-01",
+   "channel": "Online",
+   "net_sales": 1417230.0,
+   "units_sold": 75.0,
+   "gross_margin_pct": 0.395102
+  },
+  {
+   "month": "2021-11-01",
+   "channel": "Store",
+   "net_sales": 6509520.0,
+   "units_sold": 266.0,
+   "gross_margin_pct": 0.395873
+  },
+  {
+   "month": "2021-12-01",
+   "channel": "Online",
+   "net_sales": 1900530.0,
+   "units_sold": 80.0,
+   "gross_margin_pct": 0.391707
+  },
+  {
+   "month": "2021-12-01",
+   "channel": "Store",
+   "net_sales": 8137180.0,
+   "units_sold": 348.0,
+   "gross_margin_pct": 0.394926
+  },
+  {
+   "month": "2022-01-01",
+   "channel": "Online",
+   "net_sales": 922680.0,
+   "units_sold": 49.0,
+   "gross_margin_pct": 0.389713
+  },
+  {
+   "month": "2022-01-01",
+   "channel": "Store",
+   "net_sales": 7517000.0,
+   "units_sold": 314.0,
+   "gross_margin_pct": 0.394261
+  },
+  {
+   "month": "2022-02-01",
+   "channel": "Online",
+   "net_sales": 964660.0,
+   "units_sold": 43.0,
+   "gross_margin_pct": 0.396554
+  },
+  {
+   "month": "2022-02-01",
+   "channel": "Store",
+   "net_sales": 5843550.0,
+   "units_sold": 255.0,
+   "gross_margin_pct": 0.394584
+  },
+  {
+   "month": "2022-03-01",
+   "channel": "Online",
+   "net_sales": 1127610.0,
+   "units_sold": 58.0,
+   "gross_margin_pct": 0.394471
+  },
+  {
+   "month": "2022-03-01",
+   "channel": "Store",
+   "net_sales": 6439890.0,
+   "units_sold": 292.0,
+   "gross_margin_pct": 0.396188
+  },
+  {
+   "month": "2022-04-01",
+   "channel": "Online",
+   "net_sales": 976930.0,
+   "units_sold": 53.0,
+   "gross_margin_pct": 0.395474
+  },
+  {
+   "month": "2022-04-01",
+   "channel": "Store",
+   "net_sales": 6353070.0,
+   "units_sold": 278.0,
+   "gross_margin_pct": 0.395946
+  },
+  {
+   "month": "2022-05-01",
+   "channel": "Online",
+   "net_sales": 1030980.0,
+   "units_sold": 48.0,
+   "gross_margin_pct": 0.398184
+  },
+  {
+   "month": "2022-05-01",
+   "channel": "Store",
+   "net_sales": 6766430.0,
+   "units_sold": 297.0,
+   "gross_margin_pct": 0.394913
+  },
+  {
+   "month": "2022-06-01",
+   "channel": "Online",
+   "net_sales": 1164310.0,
+   "units_sold": 54.0,
+   "gross_margin_pct": 0.397325
+  },
+  {
+   "month": "2022-06-01",
+   "channel": "Store",
+   "net_sales": 5494790.0,
+   "units_sold": 239.0,
+   "gross_margin_pct": 0.397029
+  },
+  {
+   "month": "2022-07-01",
+   "channel": "Online",
+   "net_sales": 1004010.0,
+   "units_sold": 49.0,
+   "gross_margin_pct": 0.397197
+  },
+  {
+   "month": "2022-07-01",
+   "channel": "Store",
+   "net_sales": 4554080.0,
+   "units_sold": 249.0,
+   "gross_margin_pct": 0.39478
+  },
+  {
+   "month": "2022-08-01",
+   "channel": "Online",
+   "net_sales": 823500.0,
+   "units_sold": 44.0,
+   "gross_margin_pct": 0.392714
+  },
+  {
+   "month": "2022-08-01",
+   "channel": "Store",
+   "net_sales": 5305180.0,
+   "units_sold": 235.0,
+   "gross_margin_pct": 0.39587
+  },
+  {
+   "month": "2022-09-01",
+   "channel": "Online",
+   "net_sales": 1362540.0,
+   "units_sold": 49.0,
+   "gross_margin_pct": 0.389713
+  },
+  {
+   "month": "2022-09-01",
+   "channel": "Store",
+   "net_sales": 5994340.0,
+   "units_sold": 282.0,
+   "gross_margin_pct": 0.393138
+  },
+  {
+   "month": "2022-10-01",
+   "channel": "Online",
+   "net_sales": 1208130.0,
+   "units_sold": 47.0,
+   "gross_margin_pct": 0.397134
+  },
+  {
+   "month": "2022-10-01",
+   "channel": "Store",
+   "net_sales": 6898320.0,
+   "units_sold": 283.0,
+   "gross_margin_pct": 0.396862
+  },
+  {
+   "month": "2022-11-01",
+   "channel": "Online",
+   "net_sales": 1788100.0,
+   "units_sold": 71.0,
+   "gross_margin_pct": 0.396376
+  },
+  {
+   "month": "2022-11-01",
+   "channel": "Store",
+   "net_sales": 6981490.0,
+   "units_sold": 338.0,
+   "gross_margin_pct": 0.39553
+  },
+  {
+   "month": "2022-12-01",
+   "channel": "Online",
+   "net_sales": 1581360.0,
+   "units_sold": 67.0,
+   "gross_margin_pct": 0.396874
+  },
+  {
+   "month": "2022-12-01",
+   "channel": "Store",
+   "net_sales": 7476220.0,
+   "units_sold": 364.0,
+   "gross_margin_pct": 0.395588
+  },
+  {
+   "month": "2023-01-01",
+   "channel": "Online",
+   "net_sales": 1404870.0,
+   "units_sold": 59.0,
+   "gross_margin_pct": 0.396656
+  },
+  {
+   "month": "2023-01-01",
+   "channel": "Store",
+   "net_sales": 7450680.0,
+   "units_sold": 307.0,
+   "gross_margin_pct": 0.396367
+  },
+  {
+   "month": "2023-02-01",
+   "channel": "Online",
+   "net_sales": 1307630.0,
+   "units_sold": 46.0,
+   "gross_margin_pct": 0.393865
+  },
+  {
+   "month": "2023-02-01",
+   "channel": "Store",
+   "net_sales": 5737640.0,
+   "units_sold": 257.0,
+   "gross_margin_pct": 0.394514
+  },
+  {
+   "month": "2023-03-01",
+   "channel": "Online",
+   "net_sales": 1054480.0,
+   "units_sold": 58.0,
+   "gross_margin_pct": 0.395209
+  },
+  {
+   "month": "2023-03-01",
+   "channel": "Store",
+   "net_sales": 6441310.0,
+   "units_sold": 275.0,
+   "gross_margin_pct": 0.395651
+  },
+  {
+   "month": "2023-04-01",
+   "channel": "Online",
+   "net_sales": 1052840.0,
+   "units_sold": 56.0,
+   "gross_margin_pct": 0.394153
+  },
+  {
+   "month": "2023-04-01",
+   "channel": "Store",
+   "net_sales": 6139280.0,
+   "units_sold": 290.0,
+   "gross_margin_pct": 0.395121
+  },
+  {
+   "month": "2023-05-01",
+   "channel": "Online",
+   "net_sales": 720440.0,
+   "units_sold": 44.0,
+   "gross_margin_pct": 0.395453
+  },
+  {
+   "month": "2023-05-01",
+   "channel": "Store",
+   "net_sales": 6714330.0,
+   "units_sold": 295.0,
+   "gross_margin_pct": 0.394632
+  },
+  {
+   "month": "2023-06-01",
+   "channel": "Online",
+   "net_sales": 1563130.0,
+   "units_sold": 54.0,
+   "gross_margin_pct": 0.394215
+  },
+  {
+   "month": "2023-06-01",
+   "channel": "Store",
+   "net_sales": 5303120.0,
+   "units_sold": 235.0,
+   "gross_margin_pct": 0.394786
+  },
+  {
+   "month": "2023-07-01",
+   "channel": "Online",
+   "net_sales": 1110580.0,
+   "units_sold": 64.0,
+   "gross_margin_pct": 0.395073
+  },
+  {
+   "month": "2023-07-01",
+   "channel": "Store",
+   "net_sales": 6257810.0,
+   "units_sold": 275.0,
+   "gross_margin_pct": 0.395821
+  },
+  {
+   "month": "2023-08-01",
+   "channel": "Online",
+   "net_sales": 1385370.0,
+   "units_sold": 48.0,
+   "gross_margin_pct": 0.393707
+  },
+  {
+   "month": "2023-08-01",
+   "channel": "Store",
+   "net_sales": 5606090.0,
+   "units_sold": 247.0,
+   "gross_margin_pct": 0.395011
+  },
+  {
+   "month": "2023-09-01",
+   "channel": "Online",
+   "net_sales": 1410720.0,
+   "units_sold": 54.0,
+   "gross_margin_pct": 0.397031
+  },
+  {
+   "month": "2023-09-01",
+   "channel": "Store",
+   "net_sales": 7219820.0,
+   "units_sold": 317.0,
+   "gross_margin_pct": 0.395173
+  },
+  {
+   "month": "2023-10-01",
+   "channel": "Online",
+   "net_sales": 1270060.0,
+   "units_sold": 57.0,
+   "gross_margin_pct": 0.396721
+  },
+  {
+   "month": "2023-10-01",
+   "channel": "Store",
+   "net_sales": 7342080.0,
+   "units_sold": 317.0,
+   "gross_margin_pct": 0.394776
+  },
+  {
+   "month": "2023-11-01",
+   "channel": "Online",
+   "net_sales": 1334070.0,
+   "units_sold": 76.0,
+   "gross_margin_pct": 0.39279
+  },
+  {
+   "month": "2023-11-01",
+   "channel": "Store",
+   "net_sales": 8017890.0,
+   "units_sold": 345.0,
+   "gross_margin_pct": 0.395315
+  },
+  {
+   "month": "2023-12-01",
+   "channel": "Online",
+   "net_sales": 1926630.0,
+   "units_sold": 81.0,
+   "gross_margin_pct": 0.394809
+  },
+  {
+   "month": "2023-12-01",
+   "channel": "Store",
+   "net_sales": 9038190.0,
+   "units_sold": 370.0,
+   "gross_margin_pct": 0.394343
+  },
+  {
+   "month": "2024-01-01",
+   "channel": "Online",
+   "net_sales": 2005470.0,
+   "units_sold": 63.0,
+   "gross_margin_pct": 0.395354
+  },
+  {
+   "month": "2024-01-01",
+   "channel": "Store",
+   "net_sales": 5922900.0,
+   "units_sold": 305.0,
+   "gross_margin_pct": 0.396262
+  },
+  {
+   "month": "2024-02-01",
+   "channel": "Online",
+   "net_sales": 1484760.0,
+   "units_sold": 54.0,
+   "gross_margin_pct": 0.398772
+  },
+  {
+   "month": "2024-02-01",
+   "channel": "Store",
+   "net_sales": 7251100.0,
+   "units_sold": 293.0,
+   "gross_margin_pct": 0.393802
+  },
+  {
+   "month": "2024-03-01",
+   "channel": "Online",
+   "net_sales": 1226310.0,
+   "units_sold": 62.0,
+   "gross_margin_pct": 0.397363
+  },
+  {
+   "month": "2024-03-01",
+   "channel": "Store",
+   "net_sales": 6880740.0,
+   "units_sold": 299.0,
+   "gross_margin_pct": 0.394397
+  },
+  {
+   "month": "2024-04-01",
+   "channel": "Online",
+   "net_sales": 1268380.0,
+   "units_sold": 56.0,
+   "gross_margin_pct": 0.396632
+  },
+  {
+   "month": "2024-04-01",
+   "channel": "Store",
+   "net_sales": 6788830.0,
+   "units_sold": 301.0,
+   "gross_margin_pct": 0.395796
+  },
+  {
+   "month": "2024-05-01",
+   "channel": "Online",
+   "net_sales": 1773110.0,
+   "units_sold": 65.0,
+   "gross_margin_pct": 0.392762
+  },
+  {
+   "month": "2024-05-01",
+   "channel": "Store",
+   "net_sales": 6381920.0,
+   "units_sold": 297.0,
+   "gross_margin_pct": 0.393994
+  },
+  {
+   "month": "2024-06-01",
+   "channel": "Online",
+   "net_sales": 1283340.0,
+   "units_sold": 51.0,
+   "gross_margin_pct": 0.395624
+  },
+  {
+   "month": "2024-06-01",
+   "channel": "Store",
+   "net_sales": 5999500.0,
+   "units_sold": 278.0,
+   "gross_margin_pct": 0.39543
+  },
+  {
+   "month": "2024-07-01",
+   "channel": "Online",
+   "net_sales": 1004380.0,
+   "units_sold": 42.0,
+   "gross_margin_pct": 0.393536
+  },
+  {
+   "month": "2024-07-01",
+   "channel": "Store",
+   "net_sales": 6209830.0,
+   "units_sold": 256.0,
+   "gross_margin_pct": 0.39522
+  },
+  {
+   "month": "2024-08-01",
+   "channel": "Online",
+   "net_sales": 1055270.0,
+   "units_sold": 62.0,
+   "gross_margin_pct": 0.396287
+  },
+  {
+   "month": "2024-08-01",
+   "channel": "Store",
+   "net_sales": 6063310.0,
+   "units_sold": 264.0,
+   "gross_margin_pct": 0.394361
+  },
+  {
+   "month": "2024-09-01",
+   "channel": "Online",
+   "net_sales": 1638620.0,
+   "units_sold": 59.0,
+   "gross_margin_pct": 0.398213
+  },
+  {
+   "month": "2024-09-01",
+   "channel": "Store",
+   "net_sales": 6918230.0,
+   "units_sold": 280.0,
+   "gross_margin_pct": 0.394079
+  },
+  {
+   "month": "2024-10-01",
+   "channel": "Online",
+   "net_sales": 1444640.0,
+   "units_sold": 76.0,
+   "gross_margin_pct": 0.395988
+  },
+  {
+   "month": "2024-10-01",
+   "channel": "Store",
+   "net_sales": 6631730.0,
+   "units_sold": 336.0,
+   "gross_margin_pct": 0.393724
+  },
+  {
+   "month": "2024-11-01",
+   "channel": "Online",
+   "net_sales": 1120460.0,
+   "units_sold": 59.0,
+   "gross_margin_pct": 0.395909
+  },
+  {
+   "month": "2024-11-01",
+   "channel": "Store",
+   "net_sales": 7221770.0,
+   "units_sold": 341.0,
+   "gross_margin_pct": 0.395486
+  },
+  {
+   "month": "2024-12-01",
+   "channel": "Online",
+   "net_sales": 1656020.0,
+   "units_sold": 71.0,
+   "gross_margin_pct": 0.394391
+  },
+  {
+   "month": "2024-12-01",
+   "channel": "Store",
+   "net_sales": 8046310.0,
+   "units_sold": 346.0,
+   "gross_margin_pct": 0.395773
+  },
+  {
+   "month": "2025-01-01",
+   "channel": "Online",
+   "net_sales": 1397680.0,
+   "units_sold": 61.0,
+   "gross_margin_pct": 0.39557
+  },
+  {
+   "month": "2025-01-01",
+   "channel": "Store",
+   "net_sales": 8707420.0,
+   "units_sold": 359.0,
+   "gross_margin_pct": 0.395288
+  },
+  {
+   "month": "2025-02-01",
+   "channel": "Online",
+   "net_sales": 1531810.0,
+   "units_sold": 60.0,
+   "gross_margin_pct": 0.396596
+  },
+  {
+   "month": "2025-02-01",
+   "channel": "Store",
+   "net_sales": 5158370.0,
+   "units_sold": 236.0,
+   "gross_margin_pct": 0.396356
+  },
+  {
+   "month": "2025-03-01",
+   "channel": "Online",
+   "net_sales": 1695470.0,
+   "units_sold": 67.0,
+   "gross_margin_pct": 0.397229
+  },
+  {
+   "month": "2025-03-01",
+   "channel": "Store",
+   "net_sales": 8442170.0,
+   "units_sold": 353.0,
+   "gross_margin_pct": 0.394966
+  },
+  {
+   "month": "2025-04-01",
+   "channel": "Online",
+   "net_sales": 1795090.0,
+   "units_sold": 67.0,
+   "gross_margin_pct": 0.39495
+  },
+  {
+   "month": "2025-04-01",
+   "channel": "Store",
+   "net_sales": 6809260.0,
+   "units_sold": 317.0,
+   "gross_margin_pct": 0.395159
+  },
+  {
+   "month": "2025-05-01",
+   "channel": "Online",
+   "net_sales": 1371680.0,
+   "units_sold": 60.0,
+   "gross_margin_pct": 0.396623
+  },
+  {
+   "month": "2025-05-01",
+   "channel": "Store",
+   "net_sales": 6525070.0,
+   "units_sold": 311.0,
+   "gross_margin_pct": 0.395703
+  },
+  {
+   "month": "2025-06-01",
+   "channel": "Online",
+   "net_sales": 1156870.0,
+   "units_sold": 56.0,
+   "gross_margin_pct": 0.394798
+  },
+  {
+   "month": "2025-06-01",
+   "channel": "Store",
+   "net_sales": 7021800.0,
+   "units_sold": 289.0,
+   "gross_margin_pct": 0.395471
+  },
+  {
+   "month": "2025-07-01",
+   "channel": "Online",
+   "net_sales": 1428110.0,
+   "units_sold": 53.0,
+   "gross_margin_pct": 0.397063
+  },
+  {
+   "month": "2025-07-01",
+   "channel": "Store",
+   "net_sales": 6414550.0,
+   "units_sold": 274.0,
+   "gross_margin_pct": 0.396039
+  },
+  {
+   "month": "2025-08-01",
+   "channel": "Online",
+   "net_sales": 1324020.0,
+   "units_sold": 54.0,
+   "gross_margin_pct": 0.395387
+  },
+  {
+   "month": "2025-08-01",
+   "channel": "Store",
+   "net_sales": 6314350.0,
+   "units_sold": 282.0,
+   "gross_margin_pct": 0.395596
+  },
+  {
+   "month": "2025-09-01",
+   "channel": "Online",
+   "net_sales": 1949860.0,
+   "units_sold": 61.0,
+   "gross_margin_pct": 0.392726
+  },
+  {
+   "month": "2025-09-01",
+   "channel": "Store",
+   "net_sales": 7460510.0,
+   "units_sold": 319.0,
+   "gross_margin_pct": 0.394548
+  },
+  {
+   "month": "2025-10-01",
+   "channel": "Online",
+   "net_sales": 1600810.0,
+   "units_sold": 67.0,
+   "gross_margin_pct": 0.394532
+  },
+  {
+   "month": "2025-10-01",
+   "channel": "Store",
+   "net_sales": 7156130.0,
+   "units_sold": 317.0,
+   "gross_margin_pct": 0.396749
+  },
+  {
+   "month": "2025-11-01",
+   "channel": "Online",
+   "net_sales": 1647650.0,
+   "units_sold": 83.0,
+   "gross_margin_pct": 0.396377
+  },
+  {
+   "month": "2025-11-01",
+   "channel": "Store",
+   "net_sales": 8113550.0,
+   "units_sold": 319.0,
+   "gross_margin_pct": 0.395678
+  },
+  {
+   "month": "2025-12-01",
+   "channel": "Online",
+   "net_sales": 1826600.0,
+   "units_sold": 76.0,
+   "gross_margin_pct": 0.392281
+  },
+  {
+   "month": "2025-12-01",
+   "channel": "Store",
+   "net_sales": 9125510.0,
+   "units_sold": 402.0,
+   "gross_margin_pct": 0.396141
+  },
+  {
+   "month": "2026-01-01",
+   "channel": "Online",
+   "net_sales": 1253350.0,
+   "units_sold": 60.0,
+   "gross_margin_pct": 0.395428
+  },
+  {
+   "month": "2026-01-01",
+   "channel": "Store",
+   "net_sales": 7538090.0,
+   "units_sold": 354.0,
+   "gross_margin_pct": 0.394778
+  },
+  {
+   "month": "2026-02-01",
+   "channel": "Online",
+   "net_sales": 1203160.0,
+   "units_sold": 52.0,
+   "gross_margin_pct": 0.394744
+  },
+  {
+   "month": "2026-02-01",
+   "channel": "Store",
+   "net_sales": 6415970.0,
+   "units_sold": 279.0,
+   "gross_margin_pct": 0.395555
+  },
+  {
+   "month": "2026-03-01",
+   "channel": "Online",
+   "net_sales": 1671200.0,
+   "units_sold": 74.0,
+   "gross_margin_pct": 0.397271
+  },
+  {
+   "month": "2026-03-01",
+   "channel": "Store",
+   "net_sales": 7974460.0,
+   "units_sold": 334.0,
+   "gross_margin_pct": 0.395513
+  },
+  {
+   "month": "2026-04-01",
+   "channel": "Online",
+   "net_sales": 1520240.0,
+   "units_sold": 55.0,
+   "gross_margin_pct": 0.398792
+  },
+  {
+   "month": "2026-04-01",
+   "channel": "Store",
+   "net_sales": 7496920.0,
+   "units_sold": 299.0,
+   "gross_margin_pct": 0.395144
+  },
+  {
+   "month": "2026-05-01",
+   "channel": "Online",
+   "net_sales": 1651530.0,
+   "units_sold": 63.0,
+   "gross_margin_pct": 0.396887
+  },
+  {
+   "month": "2026-05-01",
+   "channel": "Store",
+   "net_sales": 7157010.0,
+   "units_sold": 319.0,
+   "gross_margin_pct": 0.396094
+  },
+  {
+   "month": "2026-06-01",
+   "channel": "Online",
+   "net_sales": 1452610.0,
+   "units_sold": 56.0,
+   "gross_margin_pct": 0.395998
+  },
+  {
+   "month": "2026-06-01",
+   "channel": "Store",
+   "net_sales": 6892000.0,
+   "units_sold": 279.0,
+   "gross_margin_pct": 0.394341
+  },
+  {
+   "month": "2026-07-01",
+   "channel": "Online",
+   "net_sales": 1065500.0,
+   "units_sold": 59.0,
+   "gross_margin_pct": 0.394932
+  },
+  {
+   "month": "2026-07-01",
+   "channel": "Store",
+   "net_sales": 7334740.0,
+   "units_sold": 310.0,
+   "gross_margin_pct": 0.395218
+  },
+  {
+   "month": "2026-08-01",
+   "channel": "Online",
+   "net_sales": 1555760.0,
+   "units_sold": 67.0,
+   "gross_margin_pct": 0.395318
+  },
+  {
+   "month": "2026-08-01",
+   "channel": "Store",
+   "net_sales": 6832980.0,
+   "units_sold": 291.0,
+   "gross_margin_pct": 0.394738
+  },
+  {
+   "month": "2026-09-01",
+   "channel": "Online",
+   "net_sales": 1490730.0,
+   "units_sold": 52.0,
+   "gross_margin_pct": 0.39482
+  },
+  {
+   "month": "2026-09-01",
+   "channel": "Store",
+   "net_sales": 6356310.0,
+   "units_sold": 306.0,
+   "gross_margin_pct": 0.394904
+  },
+  {
+   "month": "2026-10-01",
+   "channel": "Online",
+   "net_sales": 2032750.0,
+   "units_sold": 75.0,
+   "gross_margin_pct": 0.397949
+  },
+  {
+   "month": "2026-10-01",
+   "channel": "Store",
+   "net_sales": 8072880.0,
+   "units_sold": 344.0,
+   "gross_margin_pct": 0.395457
+  },
+  {
+   "month": "2026-11-01",
+   "channel": "Online",
+   "net_sales": 999800.0,
+   "units_sold": 43.0,
+   "gross_margin_pct": 0.396459
+  },
+  {
+   "month": "2026-11-01",
+   "channel": "Store",
+   "net_sales": 6386840.0,
+   "units_sold": 254.0,
+   "gross_margin_pct": 0.395401
+  }
+ ],
+ "category_mix": [
+  {
+   "fiscal_year": "FY2021",
+   "model_category": "Birkin",
+   "net_sales": 2896640.0,
+   "units_sold": 82.0,
+   "gross_margin_pct": 0.39599,
+   "average_days_to_sell": 11.109756
+  },
+  {
+   "fiscal_year": "FY2021",
+   "model_category": "Constance",
+   "net_sales": 575360.0,
+   "units_sold": 40.0,
+   "gross_margin_pct": 0.393493,
+   "average_days_to_sell": 10.375
+  },
+  {
+   "fiscal_year": "FY2021",
+   "model_category": "Evelyne",
+   "net_sales": 29920.0,
+   "units_sold": 9.0,
+   "gross_margin_pct": 0.394385,
+   "average_days_to_sell": 12.111111
+  },
+  {
+   "fiscal_year": "FY2021",
+   "model_category": "Garden Party",
+   "net_sales": 69850.0,
+   "units_sold": 24.0,
+   "gross_margin_pct": 0.396135,
+   "average_days_to_sell": 9.041667
+  },
+  {
+   "fiscal_year": "FY2021",
+   "model_category": "Her Bag",
+   "net_sales": 41900.0,
+   "units_sold": 10.0,
+   "gross_margin_pct": 0.395704,
+   "average_days_to_sell": 8.5
+  },
+  {
+   "fiscal_year": "FY2021",
+   "model_category": "Kelly",
+   "net_sales": 3317490.0,
+   "units_sold": 75.0,
+   "gross_margin_pct": 0.394337,
+   "average_days_to_sell": 12.08
+  },
+  {
+   "fiscal_year": "FY2021",
+   "model_category": "Other",
+   "net_sales": 35960.0,
+   "units_sold": 8.0,
+   "gross_margin_pct": 0.397664,
+   "average_days_to_sell": 11.625
+  },
+  {
+   "fiscal_year": "FY2021",
+   "model_category": "Picotin",
+   "net_sales": 72700.0,
+   "units_sold": 20.0,
+   "gross_margin_pct": 0.395048,
+   "average_days_to_sell": 9.85
+  },
+  {
+   "fiscal_year": "FY2022",
+   "model_category": "Birkin",
+   "net_sales": 41732490.0,
+   "units_sold": 1181.0,
+   "gross_margin_pct": 0.395362,
+   "average_days_to_sell": 35.42337
+  },
+  {
+   "fiscal_year": "FY2022",
+   "model_category": "Constance",
+   "net_sales": 8290500.0,
+   "units_sold": 584.0,
+   "gross_margin_pct": 0.395564,
+   "average_days_to_sell": 36.534247
+  },
+  {
+   "fiscal_year": "FY2022",
+   "model_category": "Evelyne",
+   "net_sales": 831270.0,
+   "units_sold": 245.0,
+   "gross_margin_pct": 0.395648,
+   "average_days_to_sell": 35.408163
+  },
+  {
+   "fiscal_year": "FY2022",
+   "model_category": "Garden Party",
+   "net_sales": 902690.0,
+   "units_sold": 282.0,
+   "gross_margin_pct": 0.395673,
+   "average_days_to_sell": 34.978723
+  },
+  {
+   "fiscal_year": "FY2022",
+   "model_category": "Her Bag",
+   "net_sales": 700420.0,
+   "units_sold": 189.0,
+   "gross_margin_pct": 0.395477,
+   "average_days_to_sell": 33.761905
+  },
+  {
+   "fiscal_year": "FY2022",
+   "model_category": "Kelly",
+   "net_sales": 35656000.0,
+   "units_sold": 999.0,
+   "gross_margin_pct": 0.39529,
+   "average_days_to_sell": 35.251251
+  },
+  {
+   "fiscal_year": "FY2022",
+   "model_category": "Other",
+   "net_sales": 405040.0,
+   "units_sold": 91.0,
+   "gross_margin_pct": 0.395467,
+   "average_days_to_sell": 39.021978
+  },
+  {
+   "fiscal_year": "FY2022",
+   "model_category": "Picotin",
+   "net_sales": 1275160.0,
+   "units_sold": 338.0,
+   "gross_margin_pct": 0.395511,
+   "average_days_to_sell": 34.269231
+  },
+  {
+   "fiscal_year": "FY2023",
+   "model_category": "Birkin",
+   "net_sales": 40367850.0,
+   "units_sold": 1215.0,
+   "gross_margin_pct": 0.395112,
+   "average_days_to_sell": 37.855144
+  },
+  {
+   "fiscal_year": "FY2023",
+   "model_category": "Constance",
+   "net_sales": 8570830.0,
+   "units_sold": 606.0,
+   "gross_margin_pct": 0.395445,
+   "average_days_to_sell": 36.874587
+  },
+  {
+   "fiscal_year": "FY2023",
+   "model_category": "Evelyne",
+   "net_sales": 890680.0,
+   "units_sold": 260.0,
+   "gross_margin_pct": 0.396281,
+   "average_days_to_sell": 33.784615
+  },
+  {
+   "fiscal_year": "FY2023",
+   "model_category": "Garden Party",
+   "net_sales": 938440.0,
+   "units_sold": 285.0,
+   "gross_margin_pct": 0.395103,
+   "average_days_to_sell": 32.863158
+  },
+  {
+   "fiscal_year": "FY2023",
+   "model_category": "Her Bag",
+   "net_sales": 952690.0,
+   "units_sold": 254.0,
+   "gross_margin_pct": 0.39527,
+   "average_days_to_sell": 35.46063
+  },
+  {
+   "fiscal_year": "FY2023",
+   "model_category": "Kelly",
+   "net_sales": 36515130.0,
+   "units_sold": 1016.0,
+   "gross_margin_pct": 0.39536,
+   "average_days_to_sell": 35.502953
+  },
+  {
+   "fiscal_year": "FY2023",
+   "model_category": "Other",
+   "net_sales": 462110.0,
+   "units_sold": 105.0,
+   "gross_margin_pct": 0.39469,
+   "average_days_to_sell": 41.114286
+  },
+  {
+   "fiscal_year": "FY2023",
+   "model_category": "Picotin",
+   "net_sales": 1169290.0,
+   "units_sold": 313.0,
+   "gross_margin_pct": 0.39471,
+   "average_days_to_sell": 36.43131
+  },
+  {
+   "fiscal_year": "FY2024",
+   "model_category": "Birkin",
+   "net_sales": 45853480.0,
+   "units_sold": 1340.0,
+   "gross_margin_pct": 0.395453,
+   "average_days_to_sell": 36.594776
+  },
+  {
+   "fiscal_year": "FY2024",
+   "model_category": "Constance",
+   "net_sales": 8109860.0,
+   "units_sold": 576.0,
+   "gross_margin_pct": 0.394922,
+   "average_days_to_sell": 37.559028
+  },
+  {
+   "fiscal_year": "FY2024",
+   "model_category": "Evelyne",
+   "net_sales": 918730.0,
+   "units_sold": 268.0,
+   "gross_margin_pct": 0.395187,
+   "average_days_to_sell": 38.097015
+  },
+  {
+   "fiscal_year": "FY2024",
+   "model_category": "Garden Party",
+   "net_sales": 1060680.0,
+   "units_sold": 335.0,
+   "gross_margin_pct": 0.395972,
+   "average_days_to_sell": 35.367164
+  },
+  {
+   "fiscal_year": "FY2024",
+   "model_category": "Her Bag",
+   "net_sales": 916570.0,
+   "units_sold": 242.0,
+   "gross_margin_pct": 0.395464,
+   "average_days_to_sell": 40.826446
+  },
+  {
+   "fiscal_year": "FY2024",
+   "model_category": "Kelly",
+   "net_sales": 41518890.0,
+   "units_sold": 1142.0,
+   "gross_margin_pct": 0.394608,
+   "average_days_to_sell": 36.90718
+  },
+  {
+   "fiscal_year": "FY2024",
+   "model_category": "Other",
+   "net_sales": 482000.0,
+   "units_sold": 109.0,
+   "gross_margin_pct": 0.394274,
+   "average_days_to_sell": 35.614679
+  },
+  {
+   "fiscal_year": "FY2024",
+   "model_category": "Picotin",
+   "net_sales": 1325460.0,
+   "units_sold": 363.0,
+   "gross_margin_pct": 0.395455,
+   "average_days_to_sell": 36.008264
+  },
+  {
+   "fiscal_year": "FY2025",
+   "model_category": "Birkin",
+   "net_sales": 46059270.0,
+   "units_sold": 1315.0,
+   "gross_margin_pct": 0.395055,
+   "average_days_to_sell": 38.546008
+  },
+  {
+   "fiscal_year": "FY2025",
+   "model_category": "Constance",
+   "net_sales": 8681820.0,
+   "units_sold": 616.0,
+   "gross_margin_pct": 0.395233,
+   "average_days_to_sell": 39.767857
+  },
+  {
+   "fiscal_year": "FY2025",
+   "model_category": "Evelyne",
+   "net_sales": 974360.0,
+   "units_sold": 283.0,
+   "gross_margin_pct": 0.395172,
+   "average_days_to_sell": 36.240283
+  },
+  {
+   "fiscal_year": "FY2025",
+   "model_category": "Garden Party",
+   "net_sales": 1113050.0,
+   "units_sold": 339.0,
+   "gross_margin_pct": 0.39496,
+   "average_days_to_sell": 38.424779
+  },
+  {
+   "fiscal_year": "FY2025",
+   "model_category": "Her Bag",
+   "net_sales": 976510.0,
+   "units_sold": 258.0,
+   "gross_margin_pct": 0.396074,
+   "average_days_to_sell": 35.182171
+  },
+  {
+   "fiscal_year": "FY2025",
+   "model_category": "Kelly",
+   "net_sales": 41037840.0,
+   "units_sold": 1156.0,
+   "gross_margin_pct": 0.395505,
+   "average_days_to_sell": 36.467993
+  },
+  {
+   "fiscal_year": "FY2025",
+   "model_category": "Other",
+   "net_sales": 404320.0,
+   "units_sold": 90.0,
+   "gross_margin_pct": 0.394984,
+   "average_days_to_sell": 41.2
+  },
+  {
+   "fiscal_year": "FY2025",
+   "model_category": "Picotin",
+   "net_sales": 1376090.0,
+   "units_sold": 371.0,
+   "gross_margin_pct": 0.394763,
+   "average_days_to_sell": 37.719677
+  },
+  {
+   "fiscal_year": "FY2026",
+   "model_category": "Birkin",
+   "net_sales": 50186390.0,
+   "units_sold": 1391.0,
+   "gross_margin_pct": 0.395238,
+   "average_days_to_sell": 36.289001
+  },
+  {
+   "fiscal_year": "FY2026",
+   "model_category": "Constance",
+   "net_sales": 9088650.0,
+   "units_sold": 637.0,
+   "gross_margin_pct": 0.395983,
+   "average_days_to_sell": 35.540031
+  },
+  {
+   "fiscal_year": "FY2026",
+   "model_category": "Evelyne",
+   "net_sales": 984560.0,
+   "units_sold": 284.0,
+   "gross_margin_pct": 0.395283,
+   "average_days_to_sell": 37.774648
+  },
+  {
+   "fiscal_year": "FY2026",
+   "model_category": "Garden Party",
+   "net_sales": 1074190.0,
+   "units_sold": 342.0,
+   "gross_margin_pct": 0.395638,
+   "average_days_to_sell": 37.862573
+  },
+  {
+   "fiscal_year": "FY2026",
+   "model_category": "Her Bag",
+   "net_sales": 969640.0,
+   "units_sold": 272.0,
+   "gross_margin_pct": 0.39526,
+   "average_days_to_sell": 41.845588
+  },
+  {
+   "fiscal_year": "FY2026",
+   "model_category": "Kelly",
+   "net_sales": 42473700.0,
+   "units_sold": 1130.0,
+   "gross_margin_pct": 0.395799,
+   "average_days_to_sell": 35.758407
+  },
+  {
+   "fiscal_year": "FY2026",
+   "model_category": "Other",
+   "net_sales": 379960.0,
+   "units_sold": 86.0,
+   "gross_margin_pct": 0.394568,
+   "average_days_to_sell": 32.104651
+  },
+  {
+   "fiscal_year": "FY2026",
+   "model_category": "Picotin",
+   "net_sales": 1431100.0,
+   "units_sold": 389.0,
+   "gross_margin_pct": 0.394927,
+   "average_days_to_sell": 38.416452
+  },
+  {
+   "fiscal_year": "FY2027",
+   "model_category": "Birkin",
+   "net_sales": 19524390.0,
+   "units_sold": 521.0,
+   "gross_margin_pct": 0.395239,
+   "average_days_to_sell": 39.775432
+  },
+  {
+   "fiscal_year": "FY2027",
+   "model_category": "Constance",
+   "net_sales": 4081010.0,
+   "units_sold": 292.0,
+   "gross_margin_pct": 0.395194,
+   "average_days_to_sell": 37.116438
+  },
+  {
+   "fiscal_year": "FY2027",
+   "model_category": "Evelyne",
+   "net_sales": 432280.0,
+   "units_sold": 120.0,
+   "gross_margin_pct": 0.396086,
+   "average_days_to_sell": 35.483333
+  },
+  {
+   "fiscal_year": "FY2027",
+   "model_category": "Garden Party",
+   "net_sales": 396300.0,
+   "units_sold": 126.0,
+   "gross_margin_pct": 0.396064,
+   "average_days_to_sell": 43.515873
+  },
+  {
+   "fiscal_year": "FY2027",
+   "model_category": "Her Bag",
+   "net_sales": 350330.0,
+   "units_sold": 99.0,
+   "gross_margin_pct": 0.395941,
+   "average_days_to_sell": 42.343434
+  },
+  {
+   "fiscal_year": "FY2027",
+   "model_category": "Kelly",
+   "net_sales": 16586930.0,
+   "units_sold": 448.0,
+   "gross_margin_pct": 0.395385,
+   "average_days_to_sell": 37.178571
+  },
+  {
+   "fiscal_year": "FY2027",
+   "model_category": "Other",
+   "net_sales": 179300.0,
+   "units_sold": 39.0,
+   "gross_margin_pct": 0.394646,
+   "average_days_to_sell": 27.871795
+  },
+  {
+   "fiscal_year": "FY2027",
+   "model_category": "Picotin",
+   "net_sales": 577750.0,
+   "units_sold": 156.0,
+   "gross_margin_pct": 0.395067,
+   "average_days_to_sell": 36.50641
+  }
+ ]
+}

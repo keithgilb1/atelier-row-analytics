@@ -5,6 +5,7 @@ on:
     paths:
       - "atelier_analytics/**"
       - "generator/**"
+      - "dashboard/src/data/**"
       - ".github/workflows/atelier-analytics.yml"
   push:
     branches: [main]
@@ -51,7 +52,16 @@ jobs:
         run: make validate
 
       - name: Export the dashboard datasets
-        run: make scorecard
+        run: make dashboard-data
+
+      # The React dashboard ships with its data bundled. This fails the build if that file no
+      # longer matches what the semantic layer returns, so the dashboard can't drift from the metrics.
+      - name: Check the dashboard's bundled data matches the semantic layer
+        run: |
+          git diff --exit-code -- ../dashboard/src/data || {
+            echo "::error::dashboard/src/data is out of date. Run 'make dashboard-data' and commit the result."
+            exit 1
+          }
 
       - name: Guardrail, agent loop and metric parity tests
         run: python -m pytest -s

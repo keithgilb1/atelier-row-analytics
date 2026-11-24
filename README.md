@@ -26,7 +26,9 @@ The governed comp figure for FY2027 to date is **+6.29%**. A reasonable-looking 
 | [`atelier_analytics`](atelier_analytics/README.md) | The dbt project, semantic layer, parity tests and AI agent. **Start here** |
 | [`dashboard`](dashboard/README.md) | The executive dashboard: React + Vite + Recharts, built from the governed metrics |
 
-![The Atelier Row executive dashboard](dashboard/docs/dashboard.png)
+**[Open the live dashboard](https://keithgilb1.github.io/atelier-row-analytics/)**
+
+[![The Atelier Row executive dashboard](dashboard/docs/dashboard.png)](https://keithgilb1.github.io/atelier-row-analytics/)
 
 ## Quickstart
 

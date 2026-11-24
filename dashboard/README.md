@@ -2,6 +2,8 @@
 
 A React dashboard for the Atelier Row warehouse: comp store sales growth, monthly sales by channel, sell-through and aged stock by boutique, and the sales mix by model. Pick a fiscal year and every tile, chart and table updates together.
 
+**Live:** https://keithgilb1.github.io/atelier-row-analytics/
+
 ![The dashboard](docs/dashboard.png)
 
 **It does no metric math of its own.** Every number comes from a MetricFlow saved query in [`atelier_analytics/models/semantic/saved_queries.yml`](../atelier_analytics/models/semantic/saved_queries.yml), the same governed definitions the AI agent and the parity tests use. The page shows each metric's definition and owner, pulled from the semantic manifest, so a reader can see exactly what a number means. CI rebuilds the data on every pull request and fails if the copy bundled here no longer matches.
@@ -55,6 +57,10 @@ make dashboard-build      # or: cd dashboard && npm run build
 ```
 
 This writes plain HTML, CSS and JavaScript to `dashboard/dist`. It uses relative paths, so it works from any folder or host: GitHub Pages, Netlify, Vercel, or an S3 bucket. `npm run preview` serves the build locally to check it.
+
+## Deployment
+
+Every merge to `main` that touches `dashboard/` rebuilds the site and publishes it to GitHub Pages (the `deploy` job in [`.github/workflows/dashboard.yml`](../.github/workflows/dashboard.yml)). It is free and needs no account beyond GitHub. To set it up once, open the repo's **Settings > Pages** and set **Source** to **GitHub Actions**. To publish without a code change, run the dashboard workflow by hand from the Actions tab.
 
 ## How the code is laid out
 

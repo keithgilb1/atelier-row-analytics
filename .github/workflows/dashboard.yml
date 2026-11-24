@@ -13,7 +13,7 @@ on:
 
 concurrency:
   group: dashboard-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 permissions:
   contents: read
@@ -48,3 +48,25 @@ jobs:
           name: dashboard-site
           path: dashboard/dist/
           retention-days: 14
+
+      # On main, also package the site for GitHub Pages.
+      - uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        with:
+          path: dashboard/dist/
+
+  # Publishes the dashboard to https://keithgilb1.github.io/atelier-row-analytics/ on every merge
+  # to main. One-time setup: Settings > Pages > Source: GitHub Actions.
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

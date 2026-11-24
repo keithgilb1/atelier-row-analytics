@@ -24,14 +24,29 @@ The governed comp figure for FY2027 to date is **+6.29%**. A reasonable-looking 
 | [`generator`](generator/README.md) | Seed-deterministic generator for the warehouse: buy-ins, a four-stage authentication pipeline, daily stock and sales |
 | [`atelier_analytics`](atelier_analytics/README.md) | The dbt project, semantic layer, parity tests and AI agent. **Start here** |
 
-## Run it
+## Quickstart
+
+You need **Python 3.12 or newer** and `make`. No cloud accounts are needed. The agent needs Claude API access; everything else runs offline.
+
+Check your version with `python3 --version`. On a Mac, the built-in Python is too old, so install a newer one with [Homebrew](https://brew.sh): `brew install python@3.12`.
 
 ```bash
-cd atelier_analytics
-python -m venv .venv && source .venv/bin/activate
-make install && make all
+git clone https://github.com/keithgilb1/atelier-row-analytics.git
+cd atelier-row-analytics
+make setup    # one time: creates atelier_analytics/.venv and installs the pinned packages
+make all      # generates the data, builds and tests everything (about 30 seconds)
 ```
 
-Python 3.11+. No cloud accounts are needed. The agent needs Claude API access; everything else runs offline.
+`make setup` uses the newest `python3.x` it finds. To pick one, run `make setup PYTHON=python3.12`.
+
+Every `make` target uses the virtual environment automatically, so you don't need to activate it. To run `dbt` or `mf` commands yourself, activate it once in each new terminal:
+
+```bash
+source atelier_analytics/.venv/bin/activate
+cd atelier_analytics
+dbt docs generate --profiles-dir . && dbt docs serve --profiles-dir .
+```
+
+To ask the agent a question, sign in to the Claude API (`ant auth login`, or set `ANTHROPIC_API_KEY`), then run `make ask Q="How are comps tracking this year?"`.
 
 More of my work, including a synthetic SaaS warehouse built for testing analytics agents, is in [keithgilb1/quillstack](https://github.com/keithgilb1/quillstack).

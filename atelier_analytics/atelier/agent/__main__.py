@@ -17,7 +17,14 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--show-sql", action="store_true", help="print the SQL each tool ran")
     args = ap.parse_args(argv)
 
-    result = AnalystAgent().ask(" ".join(args.question))
+    try:
+        result = AnalystAgent().ask(" ".join(args.question))
+    except Exception as e:
+        if "authentication" in str(e).lower() or type(e).__name__ == "AuthenticationError":
+            print("The agent needs Claude API access. Run `ant auth login`, or set ANTHROPIC_API_KEY, "
+                  "then try again.", file=sys.stderr)
+            return 2
+        raise
     if result.answer is None:
         print(f"No answer: {result.error}", file=sys.stderr)
         return 1

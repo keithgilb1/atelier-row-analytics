@@ -54,6 +54,7 @@ scorecard:          ## export the dashboard datasets from the semantic layer
 	$(BIN)mf query --saved-query inventory_health --csv exports/inventory_health.csv
 	$(BIN)mf query --saved-query sales_trend --csv exports/sales_trend.csv
 	$(BIN)mf query --saved-query category_mix --csv exports/category_mix.csv
+	$(BIN)mf query --saved-query margin_by_location --csv exports/margin_by_location.csv
 
 dashboard-data: scorecard ## refresh the React dashboard's bundled data from the saved queries
 	$(PY) -m atelier.dashboard_export

@@ -62,6 +62,14 @@ export interface CategoryRow {
   average_days_to_sell: number
 }
 
+export interface LocationMarginRow {
+  fiscal_year: string
+  location: string
+  gross_margin_pct: number
+  net_sales: number
+  units_sold: number
+}
+
 interface Export {
   source: string
   data_window: { first_sale_date: string; last_sale_date: string }
@@ -70,6 +78,7 @@ interface Export {
   inventory_health: InventoryRow[]
   sales_trend: SalesTrendRow[]
   category_mix: CategoryRow[]
+  margin_by_location: LocationMarginRow[]
 }
 
 export const data = raw as unknown as Export
@@ -79,6 +88,7 @@ export const scorecard = data.executive_scorecard
 export const inventory = data.inventory_health
 export const salesTrend = data.sales_trend
 export const categoryMix = data.category_mix
+export const marginByLocation = data.margin_by_location
 
 // Fiscal years run July to June and are named by the year they end (FY2027 = Jul 2026 to Jun 2027).
 export function fiscalYearOf(isoDate: string): string {

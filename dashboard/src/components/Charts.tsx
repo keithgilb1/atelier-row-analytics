@@ -22,8 +22,8 @@ import {
   channels,
   currentFiscalYear,
   fiscalYearBounds,
-  inventory,
   isPartialYear,
+  marginByLocation,
   salesTrend,
   scorecard,
   stockPools,
@@ -39,13 +39,13 @@ const shortYear = (label: string) => label.replace('FY20', 'FY')
 
 const axisTick = (theme: ChartTheme) => ({ fill: theme.muted, fontSize: 12 })
 
-/** A column whose data end is rounded (4px) and whose baseline end is square, for either sign. */
+/** A column whose data end is rounded (6px) and whose baseline end is square, for either sign. */
 function RoundedColumn(props: BarShapeProps) {
   const { x, y, width, height, fill, fillOpacity } = props
   if (!height || !width) return null
   const top = Math.min(y, y + height)
   const h = Math.abs(height)
-  const r = Math.min(4, h, width / 2)
+  const r = Math.min(6, h, width / 2)
   const value = Number((props.payload as { value?: number } | undefined)?.value ?? props.value ?? 0)
   const d =
     value >= 0
@@ -58,7 +58,7 @@ function RoundedColumn(props: BarShapeProps) {
 function RoundedBar(props: BarShapeProps) {
   const { x, y, width, height, fill } = props
   if (!height || !width) return null
-  const r = Math.min(4, width, height / 2)
+  const r = Math.min(6, width, height / 2)
   const d = `M${x},${y} H${x + width - r} Q${x + width},${y} ${x + width},${y + r} V${y + height - r} Q${x + width},${y + height} ${x + width - r},${y + height} H${x} Z`
   return <path d={d} fill={fill} />
 }
@@ -141,7 +141,7 @@ export function CompGrowthChart({ theme, selected }: { theme: ChartTheme; select
                     textAnchor="middle"
                     fill={theme.ink}
                     fontSize={13}
-                    fontWeight={600}
+                    fontWeight={500}
                   >
                     {signedPct(value)}
                   </text>
@@ -242,38 +242,59 @@ export function SalesTrendChart({ theme, selected }: { theme: ChartTheme; select
 }
 
 // ---------------------------------------------------------------------------------------------
-// Sell-through by boutique
+// Gross margin by location
 // ---------------------------------------------------------------------------------------------
 
-export function SellThroughChart({ theme, selected }: { theme: ChartTheme; selected: string }) {
+export function GrossMarginChart({ theme, selected }: { theme: ChartTheme; selected: string }) {
   // The first fiscal year holds one month of history, so it is left off. The current year stays in,
   // flagged as year to date.
-  const years = [...new Set(inventory.map((r) => r.fiscal_year))]
+  const years = [...new Set(marginByLocation.map((r) => r.fiscal_year))]
     .sort()
     .filter((fy) => !isPartialYear(fy) || fy === currentFiscalYear)
+  // Boutiques keep their stock-pool color slot; online is drawn as a dashed neutral line.
+  const boutiques = stockPools.filter((p) => marginByLocation.some((r) => r.location === p))
+  const others = [...new Set(marginByLocation.map((r) => r.location))].filter((l) => !boutiques.includes(l)).sort()
+  const locations = [...boutiques, ...others]
+  const colorOf = (loc: string) => (boutiques.includes(loc) ? theme.series[stockPools.indexOf(loc)] : theme.inkSecondary)
+  const companyMargin = new Map(scorecard.map((r) => [r.fiscal_year, r.gross_margin_pct]))
+
   const rows = years.map((fy) => {
     const row: Record<string, string | number> = { fy, label: yearLabel(fy) }
-    for (const r of inventory.filter((i) => i.fiscal_year === fy)) row[r.stock_pool] = r.sell_through_rate
+    for (const r of marginByLocation.filter((m) => m.fiscal_year === fy)) row[r.location] = r.gross_margin_pct
     return row
   })
-  const colorOf = (pool: string) => theme.series[stockPools.indexOf(pool)]
+  const values = rows.flatMap((r) => locations.map((l) => Number(r[l])).filter((v) => !Number.isNaN(v)))
+  // Whole-point ticks that cover every line with a little room.
+  const lo = Math.floor(Math.min(...values) * 100 - 0.5)
+  const hi = Math.ceil(Math.max(...values) * 100 + 0.5)
+  const step = hi - lo > 8 ? 2 : 1
+  const ticks: number[] = []
+  for (let t = lo; t <= hi; t += step) ticks.push(t / 100)
   const selectedLabel = yearLabel(selected)
+  const selectedRow = marginByLocation.filter((r) => r.fiscal_year === selected)
+  const best = [...selectedRow].sort((a, b) => b.gross_margin_pct - a.gross_margin_pct)[0]
 
   return (
     <ChartCard
-      title="Sell-through by boutique"
+      title="Gross margin by location"
       subtitle={
         <>
-          Units sold ÷ (opening stock + units received). Online orders ship from New York stock.
-          {isPartialYear(currentFiscalYear) &&
-            ` ${yearLabel(currentFiscalYear)} covers a shorter window, so it runs below full years.`}
+          Gross margin ÷ net sales, for each boutique and online.
+          {best && ` In ${selectedLabel}, ${best.location} led at ${pct(best.gross_margin_pct)}`}
+          {best && companyMargin.has(selected) && ` against ${pct(companyMargin.get(selected)!)} company-wide.`}
         </>
       }
-      metricNames={['sell_through_rate']}
-      legend={stockPools.map((p) => <LegendItem key={p} color={colorOf(p)} label={p} shape="line" />)}
+      metricNames={['gross_margin_pct']}
+      legend={locations.map((l) => (
+        <LegendItem key={l} color={colorOf(l)} label={l} shape={boutiques.includes(l) ? 'line' : 'dash'} />
+      ))}
       table={{
-        columns: ['Fiscal year', ...stockPools],
-        rows: rows.map((r) => [String(r.label), ...stockPools.map((p) => pct(Number(r[p])))]),
+        columns: ['Fiscal year', ...locations, 'All locations'],
+        rows: rows.map((r) => [
+          String(r.label),
+          ...locations.map((l) => (r[l] == null ? 'n/a' : pct(Number(r[l])))),
+          companyMargin.has(String(r.fy)) ? pct(companyMargin.get(String(r.fy))!) : 'n/a',
+        ]),
       }}
     >
       <ResponsiveContainer width="100%" height={260}>
@@ -282,8 +303,8 @@ export function SellThroughChart({ theme, selected }: { theme: ChartTheme; selec
           <ReferenceLine x={selectedLabel} stroke={theme.axis} />
           <XAxis dataKey="label" tickFormatter={shortYear} tickLine={false} axisLine={{ stroke: theme.axis }} tick={axisTick(theme)} interval={0} />
           <YAxis
-            domain={[0.7, 1]}
-            ticks={[0.7, 0.8, 0.9, 1]}
+            domain={[ticks[0], ticks.at(-1)!]}
+            ticks={ticks}
             tickFormatter={(v: number) => pct(v, 0)}
             tickLine={false}
             axisLine={false}
@@ -292,26 +313,32 @@ export function SellThroughChart({ theme, selected }: { theme: ChartTheme; selec
           />
           <Tooltip
             cursor={{ stroke: theme.muted, strokeWidth: 1 }}
-            content={(p: TooltipContentProps) =>
-              p.active && p.payload?.length ? (
+            content={(p: TooltipContentProps) => {
+              if (!p.active || !p.payload?.length) return null
+              const row = p.payload[0].payload as Record<string, number | string>
+              const all = companyMargin.get(String(row.fy))
+              return (
                 <TooltipCard
                   title={String(p.label)}
-                  rows={stockPools.map((pool) => ({
-                    label: pool,
-                    color: colorOf(pool),
-                    value: pct(Number((p.payload[0].payload as Record<string, number>)[pool])),
-                  }))}
+                  rows={[
+                    ...locations
+                      .filter((l) => row[l] != null)
+                      .sort((a, b) => Number(row[b]) - Number(row[a]))
+                      .map((l) => ({ label: l, color: colorOf(l), value: pct(Number(row[l])) })),
+                    ...(all != null ? [{ label: 'All locations', value: pct(all) }] : []),
+                  ]}
                 />
-              ) : null
-            }
+              )
+            }}
           />
-          {stockPools.map((pool) => (
+          {locations.map((loc) => (
             <Line
-              key={pool}
-              dataKey={pool}
-              stroke={colorOf(pool)}
+              key={loc}
+              dataKey={loc}
+              stroke={colorOf(loc)}
               strokeWidth={2}
-              dot={{ r: 4, fill: colorOf(pool), stroke: theme.surface, strokeWidth: 2 }}
+              strokeDasharray={boutiques.includes(loc) ? undefined : '5 4'}
+              dot={{ r: 4, fill: colorOf(loc), stroke: theme.surface, strokeWidth: 2 }}
               activeDot={{ r: 5, stroke: theme.surface, strokeWidth: 2 }}
               isAnimationActive={false}
             />

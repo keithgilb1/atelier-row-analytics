@@ -76,12 +76,23 @@ export function ChartCard({ title, subtitle, metricNames, table, legend, childre
   )
 }
 
-export function LegendItem({ color, label, shape = 'rect' }: { color: string; label: string; shape?: 'rect' | 'line' }) {
+export function LegendItem({
+  color,
+  label,
+  shape = 'rect',
+}: {
+  color: string
+  label: string
+  shape?: 'rect' | 'line' | 'dash'
+}) {
   return (
     <span className="legend-item">
       <span
-        className={shape === 'line' ? 'legend-line' : 'legend-swatch'}
-        style={{ background: color }}
+        className={shape === 'rect' ? 'legend-swatch' : 'legend-line'}
+        style={{
+          background:
+            shape === 'dash' ? `repeating-linear-gradient(90deg, ${color} 0 5px, transparent 5px 8px)` : color,
+        }}
         aria-hidden="true"
       />
       {label}

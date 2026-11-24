@@ -59,3 +59,17 @@ saved_queries:
       group_by:
         - TimeDimension('metric_time', 'fiscal_year')
         - Dimension('piece__model_category')
+
+  - name: margin_by_location
+    label: Gross margin by fiscal year and location
+    description: Gross margin %, net sales and units for each selling location (the three boutiques and online) by fiscal year.
+    query_params:
+      metrics:
+        - gross_margin_pct
+        - net_sales
+        - units_sold
+      group_by:
+        - TimeDimension('metric_time', 'fiscal_year')
+        - Dimension('location__location_name')
+      order_by:
+        - TimeDimension('metric_time', 'fiscal_year')

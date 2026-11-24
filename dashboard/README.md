@@ -1,6 +1,6 @@
 # Atelier Row executive dashboard
 
-A React dashboard for the Atelier Row warehouse: comp store sales growth, monthly sales by channel, sell-through and aged stock by boutique, and the sales mix by model. Pick a fiscal year and every tile, chart and table updates together.
+A React dashboard for the Atelier Row warehouse: comp store sales growth, monthly sales by channel, gross margin by location, sell-through and aged stock by boutique, and the sales mix by model. Pick a fiscal year and every tile, chart and table updates together.
 
 **Live:** https://keithgilb1.github.io/atelier-row-analytics/
 
@@ -52,9 +52,10 @@ That runs the saved queries with `mf query --saved-query ...`, then [`atelier/da
 | Saved query | What it feeds |
 |---|---|
 | `executive_scorecard` | The headline tiles and the comp growth chart |
-| `inventory_health` | Sell-through by boutique and the inventory table |
+| `inventory_health` | The inventory table |
 | `sales_trend` | Net sales by month, boutiques and online |
 | `category_mix` | Net sales by model |
+| `margin_by_location` | Gross margin by location |
 
 ## Build a static site
 

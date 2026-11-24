@@ -24,7 +24,13 @@ from atelier.paths import PROJECT_DIR, SEMANTIC_MANIFEST_PATH, WAREHOUSE_PATH
 EXPORTS_DIR = PROJECT_DIR / "exports"
 OUTPUT_PATH = PROJECT_DIR.parent / "dashboard" / "src" / "data" / "atelier.json"
 
-SAVED_QUERIES = ["executive_scorecard", "inventory_health", "sales_trend", "category_mix"]
+SAVED_QUERIES = [
+    "executive_scorecard",
+    "inventory_health",
+    "sales_trend",
+    "category_mix",
+    "margin_by_location",
+]
 
 # Rename MetricFlow's qualified column names to something friendlier for the front end.
 COLUMN_NAMES = {
@@ -33,8 +39,9 @@ COLUMN_NAMES = {
     "stock_pool__stock_pool_name": "stock_pool",
     "location__channel": "channel",
     "piece__model_category": "model_category",
+    "location__location_name": "location",
 }
-TEXT_COLUMNS = {"fiscal_year", "month", "stock_pool", "channel", "model_category"}
+TEXT_COLUMNS = {"fiscal_year", "month", "stock_pool", "channel", "model_category", "location"}
 
 
 def _value(column: str, raw: str) -> str | float | None:
@@ -60,7 +67,7 @@ def read_export(name: str) -> list[dict]:
                 key = COLUMN_NAMES.get(column, column)
                 clean[key] = _value(key, raw)
             rows.append(clean)
-    sort_keys = [k for k in ("fiscal_year", "month", "stock_pool", "channel", "model_category")
+    sort_keys = [k for k in ("fiscal_year", "month", "stock_pool", "channel", "model_category", "location")
                  if rows and k in rows[0]]
     return sorted(rows, key=lambda r: tuple(str(r[k]) for k in sort_keys))
 

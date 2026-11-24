@@ -39,7 +39,22 @@ OPENING_STOCK_LOOKBACK = 60            # opening stock was bought up to 60 days 
 GROWTH = 0.04                          # annual demand growth
 PURCHASE_OVERSUPPLY = 1.00             # baseline buy-in rate relative to demand (steered by stock level below)
 TARGET_WEEKS_ON_HAND = 6.0             # buy-ins speed up or slow down to hold about six weeks of stock
-BUYIN_RATIO = 0.60                     # purchase price = 60% of market value  (-40%)
+BUYIN_RATIO = 0.555                    # baseline purchase price = 55.5% of market value, adjusted below
+
+# Margin drivers. Buy-in is a share of market value that depends on how hard the piece is to source:
+# sellers of in-demand Birkins and Kellys know what they hold and negotiate hard, while smaller
+# models and worn pieces are bought cheaper. Supply also tightens a little each year as more
+# resellers compete for the same pieces. On the sale side, negotiated discounts vary by salon,
+# online carries a standing promotion, and pieces that sit on the floor get marked down.
+BUYIN_BY_CATEGORY = {"Birkin": 0.03, "Kelly": 0.02, "Constance": 0.00}   # added to BUYIN_RATIO; others -0.05
+BUYIN_EXOTIC = 0.04                    # exotics: few sellers, high values, thin margins
+BUYIN_CONDITION = {"New": 0.01, "Full Set": 0.0, "Excellent Pre Loved": -0.04, "Pre Loved": -0.07}
+BUYIN_DRIFT_PER_YEAR = 0.006           # buy-in creeps up each year after DATA_START (margin compression)
+BUYIN_NOISE = 0.015                    # deal-to-deal spread (standard deviation)
+DISCOUNT_RATE = {"LOC-NYC": 0.30, "LOC-LA": 0.40, "LOC-MIA": 0.50, "LOC-ONL": 0.0}   # share of sales negotiated
+DISCOUNT_RANGE = {"LOC-NYC": (0.005, 0.03), "LOC-LA": (0.01, 0.04), "LOC-MIA": (0.01, 0.05)}
+ONLINE_PROMO = (0.02, 0.04)            # every online sale
+AGED_MARKDOWN = ((120, 0.08), (60, 0.04))   # (days on the floor at sale, markdown): first match wins
 EXOTIC_SHARE = 0.15                    # share of Birkin/Kelly pieces in exotic leather
 SELLIER_RARE_PRICE = (33000, 40000)    # Birkin 25 Sellier: discontinued, so priced at the top end
 
@@ -378,6 +393,7 @@ def simulate(rng: np.random.Generator) -> dict:
 # ----------------------------------------------------------------------------
 def build_warehouse(seed: int, verbose: bool = True) -> dict:
     rng = np.random.default_rng(seed)
+    margin_rng = np.random.default_rng(seed + 7919)   # margin drivers only, so other attributes don't move
     t0 = time.time()
     sim = simulate(rng)
     n_items = len(sim["stock_loc"])
@@ -532,11 +548,26 @@ def build_warehouse(seed: int, verbose: bool = True) -> dict:
         market = float(np.clip(market * mods, lo_b, hi_b))
         market = round(market, -2)
 
-        # Buy-in = 60% of market value. Sales carry a small negotiated discount on about 35% of pieces,
-        # so realised margin lands near 40% but not exactly on it.
-        purchase_price[i] = round(market * BUYIN_RATIO, -1)
+        # Buy-in depends on what the piece is (see the margin drivers at the top). The margin draws use
+        # their own generator, so every other attribute is the same as before they were added.
+        years_in = max(purch_day[i], 0) / 365.25
+        ratio = (BUYIN_RATIO + BUYIN_BY_CATEGORY.get(cat, -0.05) + (BUYIN_EXOTIC if exotic else 0.0)
+                 + BUYIN_CONDITION[condition] + BUYIN_DRIFT_PER_YEAR * years_in
+                 + margin_rng.normal(0, BUYIN_NOISE))
+        purchase_price[i] = round(market * float(np.clip(ratio, 0.45, 0.80)), -1)
         market_value[i] = market
-        disc = 0.0 if rng.random() < 0.65 else float(rng.uniform(0.005, 0.04))
+        # Sale price: market value less a negotiated discount (by salon), the online promotion, and a
+        # markdown for pieces that sat on the floor. rng is drawn exactly as before to keep the stream.
+        _ = 0.0 if rng.random() < 0.65 else float(rng.uniform(0.005, 0.04))
+        disc = 0.0
+        sold_at = sim["sale_loc"][i]
+        if sold_at == ONLINE_ID:
+            disc += margin_rng.uniform(*ONLINE_PROMO)
+        elif sold_at and margin_rng.random() < DISCOUNT_RATE[sold_at]:
+            disc += margin_rng.uniform(*DISCOUNT_RANGE[sold_at])
+        if sold_at:
+            on_floor = sale_day[i] - max(stock_day[i], 0)
+            disc += next((m for days, m in AGED_MARKDOWN if on_floor >= days), 0.0)
         sale_price[i] = round(market * (1 - disc), -1)
 
         prod_rows.append(dict(
@@ -730,7 +761,7 @@ def run_checks(t: dict) -> list:
     merged = t["sales"].merge(purchases[["inventory_id", "purchase_price"]], on="inventory_id")
     if (merged["sales_price"] <= merged["purchase_price"]).any(): issues.append("a sale is at or below buy-in")
     margin = 1 - merged["purchase_price"] / merged["sales_price"]
-    if not (0.36 <= margin.median() <= 0.41): issues.append(f"median margin {margin.median():.3f} off 40%")
+    if not (0.36 <= margin.median() <= 0.45): issues.append(f"median margin {margin.median():.3f} outside 36% to 45%")
 
     for name, df in t.items():
         nullable = {"inventory": ["sale_id"], "locations": ["close_date"]}.get(name, [])

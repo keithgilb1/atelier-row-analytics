@@ -33,12 +33,12 @@ def test_governed_question_end_to_end(tmp_path, monkeypatch):
         reply(tool_use(1, "list_metrics")),
         reply(tool_use(2, "query_metrics", metrics=["comp_store_sales_growth"],
                        group_by=["metric_time__fiscal_year"], where=[], order_by=[], limit=20)),
-        reply(tool_use(3, "submit_answer", answer="FY2026 comp store sales grew 5.1%.", headline_value=0.0514,
+        reply(tool_use(3, "submit_answer", answer="FY2026 comp store sales grew 5.2%.", headline_value=0.0516,
                        unit="ratio", metrics_used=["comp_store_sales_growth"], caveats=[])),
     ])
     result = AnalystAgent(messages_client=client).ask("What was comp store sales growth in FY2026?")
 
-    assert result.answer.headline_value == 0.0514
+    assert result.answer.headline_value == 0.0516
     assert result.paths == ["governed"]
     governed_call = result.tool_calls[1]
     assert governed_call.sql and "fct_comp_sales_daily" in governed_call.sql
@@ -47,7 +47,7 @@ def test_governed_question_end_to_end(tmp_path, monkeypatch):
     # The tool result the model saw contains the governed number.
     tool_result = client.requests[2]["messages"][-1]["content"][0]
     rows = dict(json.loads(tool_result["content"])["rows"])
-    assert abs(rows["FY2026"] - 0.05138518) < 1e-6
+    assert abs(rows["FY2026"] - 0.05157185) < 1e-6
 
     log = [json.loads(line) for line in next(tmp_path.glob("answers_*.jsonl")).read_text().splitlines()]
     assert log[0]["question"].startswith("What was comp")

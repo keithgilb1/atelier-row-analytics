@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CategoryMixChart, CompGrowthChart, SalesTrendChart, SellThroughChart } from './components/Charts'
+import { CategoryMixChart, CompGrowthChart, GrossMarginChart, SalesTrendChart } from './components/Charts'
 import { InventoryTable } from './components/InventoryTable'
 import { MetricGlossary } from './components/MetricGlossary'
 import { StatTile } from './components/StatTile'
@@ -118,7 +118,7 @@ export default function App() {
           <div className="grid">
             <SalesTrendChart theme={theme} selected={selected} />
             <CompGrowthChart theme={theme} selected={selected} />
-            <SellThroughChart theme={theme} selected={selected} />
+            <GrossMarginChart theme={theme} selected={selected} />
             <InventoryTable theme={theme} selected={selected} />
             <CategoryMixChart theme={theme} selected={selected} />
           </div>

@@ -697,17 +697,29 @@ a:focus-visible {
   margin-top: 96px;
 }
 
-.glossary > h2 {
+.glossary-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 32px;
+  padding-bottom: 32px;
+  box-shadow: inset 0 -1px 0 var(--border-hairline);
+}
+
+.glossary h2 {
   font-size: 36px;
+}
+
+.glossary-grid[hidden] {
+  display: none;
 }
 
 .glossary-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 32px 40px;
-  margin: 40px 0 0;
-  padding-top: 32px;
-  box-shadow: inset 0 1px 0 var(--border-hairline);
+  margin: 32px 0 0;
 }
 
 .glossary-item dt {

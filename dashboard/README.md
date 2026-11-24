@@ -6,6 +6,12 @@ A React dashboard for the Atelier Row warehouse: comp store sales growth, monthl
 
 ![The dashboard](docs/dashboard.png)
 
+## Design
+
+The page follows the **Atelier Row Design System**: a cool porcelain-to-ink neutral ramp, one accent (Bleu Nuit, `#2C3B4F`), Bodoni Moda for headings and figures, Jost for body text, generously rounded cards and pill controls. The color tokens live in [`src/index.css`](src/index.css), and the chart colors in [`src/theme.ts`](src/theme.ts). The fonts are self-hosted in `src/fonts/` (both are SIL Open Font License faces from Google Fonts). The design system ships a light theme; the dark theme here is built from its ink ramp and follows the reader's system setting.
+
+![The dashboard in dark mode](docs/dashboard-dark.png)
+
 **It does no metric math of its own.** Every number comes from a MetricFlow saved query in [`atelier_analytics/models/semantic/saved_queries.yml`](../atelier_analytics/models/semantic/saved_queries.yml), the same governed definitions the AI agent and the parity tests use. The page shows each metric's definition and owner, pulled from the semantic manifest, so a reader can see exactly what a number means. CI rebuilds the data on every pull request and fails if the copy bundled here no longer matches.
 
 ## Run it

@@ -39,13 +39,13 @@ const shortYear = (label: string) => label.replace('FY20', 'FY')
 
 const axisTick = (theme: ChartTheme) => ({ fill: theme.muted, fontSize: 12 })
 
-/** A column whose data end is rounded (4px) and whose baseline end is square, for either sign. */
+/** A column whose data end is rounded (6px) and whose baseline end is square, for either sign. */
 function RoundedColumn(props: BarShapeProps) {
   const { x, y, width, height, fill, fillOpacity } = props
   if (!height || !width) return null
   const top = Math.min(y, y + height)
   const h = Math.abs(height)
-  const r = Math.min(4, h, width / 2)
+  const r = Math.min(6, h, width / 2)
   const value = Number((props.payload as { value?: number } | undefined)?.value ?? props.value ?? 0)
   const d =
     value >= 0
@@ -58,7 +58,7 @@ function RoundedColumn(props: BarShapeProps) {
 function RoundedBar(props: BarShapeProps) {
   const { x, y, width, height, fill } = props
   if (!height || !width) return null
-  const r = Math.min(4, width, height / 2)
+  const r = Math.min(6, width, height / 2)
   const d = `M${x},${y} H${x + width - r} Q${x + width},${y} ${x + width},${y + r} V${y + height - r} Q${x + width},${y + height} ${x + width - r},${y + height} H${x} Z`
   return <path d={d} fill={fill} />
 }
@@ -141,7 +141,7 @@ export function CompGrowthChart({ theme, selected }: { theme: ChartTheme; select
                     textAnchor="middle"
                     fill={theme.ink}
                     fontSize={13}
-                    fontWeight={600}
+                    fontWeight={500}
                   >
                     {signedPct(value)}
                   </text>

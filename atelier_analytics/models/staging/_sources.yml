@@ -1,0 +1,46 @@
+version: 2
+
+sources:
+  - name: raw
+    description: >
+      Operational extracts from the Atelier Row store systems, produced by
+      `generator/atelier_row_generator.py` and attached read-only.
+    database: raw
+    schema: main
+    tables:
+      - name: calendar
+        description: One row per day, 2016 to 2027. Fiscal year runs July to June and is named for the year it ends.
+        columns:
+          - name: calendar_date
+            data_tests: [unique, not_null]
+      - name: locations
+        description: Stores and the online channel.
+        columns:
+          - name: location_id
+            data_tests: [unique, not_null]
+      - name: customers
+        description: Buyers and consignors. Contains PII (name, address, phone, birthday).
+        columns:
+          - name: customer_id
+            data_tests: [unique, not_null]
+      - name: purchasing
+        description: One row per buy-in (piece acquired from a customer).
+        columns:
+          - name: purchase_id
+            data_tests: [unique, not_null]
+          - name: inventory_id
+            data_tests: [unique, not_null]
+      - name: product_detail
+        description: Attributes of each piece.
+        columns:
+          - name: inventory_id
+            data_tests: [unique, not_null]
+      - name: sales
+        description: One row per piece sold.
+        columns:
+          - name: sale_id
+            data_tests: [unique, not_null]
+          - name: inventory_id
+            data_tests: [unique, not_null]
+      - name: inventory
+        description: Daily stock snapshot. One row per piece on hand per day, from the day it reaches the floor through its sale day.

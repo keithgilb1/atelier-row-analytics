@@ -1,0 +1,50 @@
+name: atelier_row
+version: '1.0.0'
+config-version: 2
+profile: atelier_row
+
+model-paths: ["models"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+clean-targets: ["target", "dbt_packages", "logs"]
+
+vars:
+  # The warehouse snapshot date. Everything "as of today" is measured against this.
+  as_of_date: '2026-11-21'
+  # First day of sales history. Opening stock bought before this lands on this day.
+  history_start_date: '2021-06-01'
+  # A store joins the comp base after this many full fiscal months open.
+  comp_months_open: 13
+  # Pieces on hand longer than this many days count as aged inventory.
+  aged_inventory_days: 90
+
+models:
+  atelier_row:
+    staging:
+      +materialized: view
+      +schema: staging
+      +group: data_platform
+      +access: protected
+    intermediate:
+      +materialized: view
+      +schema: intermediate
+      +group: data_platform
+      +access: protected
+    marts:
+      +materialized: table
+      +schema: marts
+      +group: commercial_analytics
+      +access: public
+      +contract:
+        enforced: true
+    semantic:
+      +materialized: table
+      +schema: marts
+    audit:
+      +materialized: table
+      +schema: audit
+      +group: data_platform
+
+data_tests:
+  atelier_row:
+    +store_failures: false

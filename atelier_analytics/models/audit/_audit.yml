@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: audit_sale_price_outliers
+    description: >
+      Pricing audit. Each sale scored against peers of the same model, leather and condition with a
+      robust (median/MAD) z-score. Flags |z| > 3.5 or a margin outside the 30% to 45% pricing policy.
+    columns:
+      - name: sale_id
+        data_tests: [unique, not_null]
+      - name: is_flagged
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [false]
+              config:
+                severity: warn

@@ -1,0 +1,11 @@
+version: 2
+
+groups:
+  - name: data_platform
+    owner:
+      name: Data Platform
+      email: data-platform@atelier-row.example
+  - name: commercial_analytics
+    owner:
+      name: Commercial Analytics
+      email: commercial-analytics@atelier-row.example

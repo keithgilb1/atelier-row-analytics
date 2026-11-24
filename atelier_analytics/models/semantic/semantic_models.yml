@@ -1,0 +1,114 @@
+version: 2
+
+# The governed semantic layer. Each measure and metric is defined once, here. Dashboards, exports and the
+# AI agent all ask MetricFlow for metrics by name, so they cannot drift apart.
+
+semantic_models:
+  - name: sales
+    description: Sales at piece grain.
+    model: ref('fct_sales')
+    defaults:
+      agg_time_dimension: sale_date
+    entities:
+      - {name: sale, type: primary, expr: sale_id}
+      - {name: piece, type: foreign, expr: inventory_id}
+      - {name: location, type: foreign, expr: location_id}
+      - {name: customer, type: foreign, expr: customer_id}
+    dimensions:
+      - {name: sale_date, type: time, type_params: {time_granularity: day}}
+      - {name: payment_type, type: categorical}
+      - {name: delivery_type, type: categorical}
+    measures:
+      - {name: net_sales, agg: sum, expr: net_sales_amount, description: Net sales in USD.}
+      - {name: units_sold, agg: count, expr: sale_id}
+      - {name: cogs, agg: sum, expr: cost_of_goods_sold}
+      - {name: gross_margin, agg: sum, expr: gross_margin_amount}
+      - {name: total_days_to_sell, agg: sum, expr: days_to_sell}
+      - {name: buyers, agg: count_distinct, expr: customer_id}
+
+  - name: comp_sales
+    description: Location-day comp sales with the matching day last year.
+    model: ref('fct_comp_sales_daily')
+    defaults:
+      agg_time_dimension: comp_date
+    entities:
+      - {name: location_day, type: primary, expr: location_day_id}
+      - {name: location, type: foreign, expr: location_id}
+    dimensions:
+      - {name: comp_date, type: time, expr: sale_date, type_params: {time_granularity: day}}
+      - {name: is_comp, type: categorical}
+    measures:
+      - {name: comp_sales_ty, agg: sum, expr: "case when is_comp then ty_net_sales_amount else 0 end", description: This year's net sales on comp days.}
+      - {name: comp_sales_ly, agg: sum, expr: "case when is_comp then ly_net_sales_amount else 0 end", description: "Last year's net sales on the matching days, same store set."}
+      - {name: comp_units_ty, agg: sum, expr: "case when is_comp then ty_units_sold else 0 end"}
+      - {name: comp_units_ly, agg: sum, expr: "case when is_comp then ly_units_sold else 0 end"}
+
+  - name: inventory
+    description: Daily stock position per stock pool and model category.
+    model: ref('fct_inventory_daily')
+    defaults:
+      agg_time_dimension: inventory_date
+    entities:
+      - {name: inventory_day, type: primary, expr: inventory_day_id}
+      - {name: stock_pool, type: foreign, expr: stock_pool_location_id}
+    dimensions:
+      - {name: inventory_date, type: time, type_params: {time_granularity: day}}
+      - {name: model_category, type: categorical}
+    measures:
+      - name: opening_units
+        agg: sum
+        description: Units on hand at the start of the period (first day of the period, not summed over days).
+        non_additive_dimension: {name: inventory_date, window_choice: min}
+      - {name: received_units, agg: sum}
+      - {name: inventory_sold_units, agg: sum, expr: sold_units}
+      - name: closing_units
+        agg: sum
+        description: Units on hand at the end of the period.
+        non_additive_dimension: {name: inventory_date, window_choice: max}
+      - name: closing_cost
+        agg: sum
+        expr: closing_cost_amount
+        non_additive_dimension: {name: inventory_date, window_choice: max}
+      - name: aged_closing_units
+        agg: sum
+        non_additive_dimension: {name: inventory_date, window_choice: max}
+
+  - name: locations
+    description: Selling locations.
+    model: ref('dim_location')
+    entities:
+      - {name: location, type: primary, expr: location_id}
+    dimensions:
+      - {name: location_name, type: categorical}
+      - {name: channel, type: categorical}
+      - {name: city, type: categorical}
+
+  - name: stock_pools
+    description: Stock pools (a location whose stock fills orders). Online sells from the New York pool.
+    model: ref('dim_location')
+    entities:
+      - {name: stock_pool, type: primary, expr: location_id}
+    dimensions:
+      - {name: stock_pool_name, type: categorical, expr: location_name}
+
+  - name: pieces
+    description: Piece attributes.
+    model: ref('dim_product')
+    entities:
+      - {name: piece, type: primary, expr: inventory_id}
+    dimensions:
+      - {name: model_category, type: categorical}
+      - {name: model_name, type: categorical}
+      - {name: leather_type, type: categorical}
+      - {name: condition, type: categorical}
+      - {name: is_exotic, type: categorical}
+      - {name: is_box_fresh, type: categorical}
+
+  - name: customers
+    description: Customers (no PII).
+    model: ref('dim_customer')
+    entities:
+      - {name: customer, type: primary, expr: customer_id}
+    dimensions:
+      - {name: country_code, type: categorical}
+      - {name: is_domestic, type: categorical}

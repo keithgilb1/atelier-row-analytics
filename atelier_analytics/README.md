@@ -20,13 +20,15 @@ flowchart LR
 
 ## Quick start
 
+You need Python 3.12 or newer. On a Mac: `brew install python@3.12`. From the repo root or this folder:
+
 ```bash
-cd atelier_analytics
-python -m venv .venv && source .venv/bin/activate
-make install          # pinned dbt-duckdb, MetricFlow, pandas, sqlglot, anthropic
+make setup            # one time: creates .venv here and installs the pinned packages
 make all              # generate data, dbt build, validate metrics, export scorecard, run tests
-make docs && dbt docs serve --profiles-dir .   # browse lineage and column docs
+make docs             # build the dbt docs site
 ```
+
+The `make` targets use `.venv` automatically. To run `dbt` or `mf` by hand, first run `source .venv/bin/activate` in each new terminal. To browse lineage and column docs, run `dbt docs serve --profiles-dir .`.
 
 To use the agent, sign in to the Claude API (`ant auth login`, or set `ANTHROPIC_API_KEY`), then:
 

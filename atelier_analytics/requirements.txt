@@ -1,4 +1,4 @@
-# Pinned so the build is reproducible. Python 3.11+.
+# Pinned so the build is reproducible. Python 3.12+ (numpy 2.5 needs it).
 dbt-core==1.12.7
 dbt-duckdb==1.11.1
 dbt-metricflow==0.16.0

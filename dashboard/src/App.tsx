@@ -41,8 +41,10 @@ export default function App() {
           <span className="brand-sub">Executive dashboard</span>
         </div>
         <p className="provenance">
-          Data through {longDate(lastSaleDate)}. Every figure is read from a certified metric in the dbt semantic
-          layer, the same source the AI analyst answers from.{' '}
+          Data through {longDate(lastSaleDate)}.
+          <div> </div>
+          All data is read from the dbt semantic layer, which is only updated when generated.
+          <div> </div>
           <a href={REPO_URL}>How it's built</a>
         </p>
       </header>

@@ -32,3 +32,30 @@ saved_queries:
       group_by:
         - TimeDimension('metric_time', 'fiscal_year')
         - Dimension('stock_pool__stock_pool_name')
+
+  - name: sales_trend
+    label: Monthly sales by channel
+    description: Net sales, units and margin by month for boutiques and online, for the dashboard trend chart.
+    query_params:
+      metrics:
+        - net_sales
+        - units_sold
+        - gross_margin_pct
+      group_by:
+        - TimeDimension('metric_time', 'month')
+        - Dimension('location__channel')
+      order_by:
+        - TimeDimension('metric_time', 'month')
+
+  - name: category_mix
+    label: Sales mix by fiscal year and model category
+    description: Net sales, units, margin and days to sell for each model category by fiscal year.
+    query_params:
+      metrics:
+        - net_sales
+        - units_sold
+        - gross_margin_pct
+        - average_days_to_sell
+      group_by:
+        - TimeDimension('metric_time', 'fiscal_year')
+        - Dimension('piece__model_category')

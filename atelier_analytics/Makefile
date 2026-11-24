@@ -21,7 +21,7 @@ else
   PY ?= $(PYTHON)
 endif
 
-.PHONY: setup install data build validate scorecard test docs all ask eval clean check-python
+.PHONY: setup install data build validate scorecard dashboard-data test docs all ask eval clean check-python
 
 check-python:
 	@test -n "$(PYTHON)" || { echo "No python3 found. Install Python 3.12+ (macOS: brew install python@3.12)."; exit 1; }
@@ -52,6 +52,11 @@ scorecard:          ## export the dashboard datasets from the semantic layer
 	mkdir -p exports
 	$(BIN)mf query --saved-query executive_scorecard --csv exports/executive_scorecard.csv
 	$(BIN)mf query --saved-query inventory_health --csv exports/inventory_health.csv
+	$(BIN)mf query --saved-query sales_trend --csv exports/sales_trend.csv
+	$(BIN)mf query --saved-query category_mix --csv exports/category_mix.csv
+
+dashboard-data: scorecard ## refresh the React dashboard's bundled data from the saved queries
+	$(PY) -m atelier.dashboard_export
 
 test:               ## guardrail, agent loop and metric parity tests
 	$(PY) -m pytest
@@ -59,7 +64,7 @@ test:               ## guardrail, agent loop and metric parity tests
 docs:               ## build the dbt docs site into target/
 	$(BIN)dbt docs generate --profiles-dir .
 
-all: data build validate scorecard test
+all: data build validate scorecard dashboard-data test
 
 ask:                ## ask the agent: make ask Q="How are comps tracking this year?"
 	$(PY) -m atelier.agent --show-sql "$(Q)"

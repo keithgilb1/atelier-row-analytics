@@ -1,0 +1,72 @@
+name: dashboard
+
+on:
+  pull_request:
+    paths:
+      - "dashboard/**"
+      - ".github/workflows/dashboard.yml"
+  push:
+    branches: [main]
+    paths:
+      - "dashboard/**"
+  workflow_dispatch:
+
+concurrency:
+  group: dashboard-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: dashboard
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: dashboard/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type-check and build
+        run: npm run build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dashboard-site
+          path: dashboard/dist/
+          retention-days: 14
+
+      # On main, also package the site for GitHub Pages.
+      - uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        with:
+          path: dashboard/dist/
+
+  # Publishes the dashboard to https://keithgilb1.github.io/atelier-row-analytics/ on every merge
+  # to main. One-time setup: Settings > Pages > Source: GitHub Actions.
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

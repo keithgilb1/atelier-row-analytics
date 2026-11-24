@@ -1,0 +1,194 @@
+version: 2
+
+# Marts are the public, contract-enforced interface. The semantic layer, dashboards and the AI agent
+# read only from here. Changing a column name or type fails the build until the contract is updated.
+
+models:
+  - name: dim_date
+    description: Calendar and fiscal calendar, one row per day. Fiscal year runs July to June and is named for the year it ends (FY2026 = Jul 2025 to Jun 2026).
+    columns:
+      - name: date_day
+        data_type: date
+        constraints: [{type: primary_key}, {type: not_null}]
+        data_tests: [unique, not_null]
+      - {name: calendar_year, data_type: bigint}
+      - {name: calendar_month_number, data_type: bigint}
+      - {name: calendar_month_name, data_type: varchar}
+      - {name: calendar_month_start, data_type: date}
+      - {name: fiscal_year, data_type: bigint, description: Fiscal year number, named for the calendar year it ends in.}
+      - {name: fiscal_year_label, data_type: varchar, description: "For example FY2026."}
+      - name: fiscal_quarter
+        data_type: varchar
+        description: Q1 (Jul to Sep) through Q4 (Apr to Jun).
+        data_tests: [{accepted_values: {arguments: {values: [Q1, Q2, Q3, Q4]}}}]
+      - {name: fiscal_quarter_label, data_type: varchar, description: "For example FY2026-Q2."}
+      - {name: fiscal_month_number, data_type: bigint, description: 1 = July.}
+      - {name: fiscal_month_name, data_type: varchar}
+      - {name: fiscal_month_start, data_type: date}
+      - {name: is_weekend, data_type: boolean}
+
+  - name: dim_location
+    description: Selling locations. Three boutiques and the online channel. Online ships from New York stock.
+    columns:
+      - name: location_id
+        data_type: varchar
+        constraints: [{type: primary_key}, {type: not_null}]
+        data_tests: [unique, not_null]
+      - {name: location_name, data_type: varchar}
+      - name: channel
+        data_type: varchar
+        data_tests: [{accepted_values: {arguments: {values: [Store, Online]}}}]
+      - {name: city, data_type: varchar}
+      - {name: state_province, data_type: varchar}
+      - {name: country, data_type: varchar}
+      - name: stock_pool_location_id
+        data_type: varchar
+        description: The location whose stock fills this location's orders.
+        data_tests: [{relationships: {arguments: {to: ref('dim_location'), field: location_id}}}]
+      - {name: open_date, data_type: date}
+      - {name: close_date, data_type: date}
+      - {name: comp_start_date, data_type: date, description: First day the location counts in the comp base (13 full fiscal months after opening).}
+
+  - name: dim_product
+    description: One row per piece. Every handbag is unique, so the product dimension is at piece grain.
+    columns:
+      - name: inventory_id
+        data_type: varchar
+        constraints: [{type: primary_key}, {type: not_null}]
+        data_tests: [unique, not_null]
+      - {name: brand, data_type: varchar}
+      - name: model_category
+        data_type: varchar
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [Birkin, Kelly, Constance, Picotin, Evelyne, Garden Party, Her Bag, Other]
+      - {name: model, data_type: varchar}
+      - {name: model_name, data_type: varchar, description: "Category and model, for example Birkin 25."}
+      - {name: special_model_name, data_type: varchar}
+      - {name: model_year, data_type: bigint}
+      - {name: color, data_type: varchar}
+      - {name: color_family, data_type: varchar}
+      - {name: leather, data_type: varchar}
+      - {name: leather_type, data_type: varchar}
+      - {name: is_exotic, data_type: boolean}
+      - {name: has_cites, data_type: varchar, description: CITES permit flag. Y or N for exotic leather, N/A for standard.}
+      - {name: hardware, data_type: varchar}
+      - {name: sellier_retourne, data_type: varchar}
+      - {name: is_verso, data_type: boolean}
+      - name: condition
+        data_type: varchar
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [New, Full Set, Excellent Pre Loved, Pre Loved]
+      - {name: is_box_fresh, data_type: boolean, description: New or Full Set.}
+
+  - name: dim_customer
+    description: Customers without PII. Name, address, phone and birthday never leave the source layer.
+    columns:
+      - name: customer_id
+        data_type: varchar
+        constraints: [{type: primary_key}, {type: not_null}]
+        data_tests: [unique, not_null]
+      - {name: profile_create_date, data_type: date}
+      - {name: customer_city, data_type: varchar}
+      - {name: state_province, data_type: varchar}
+      - {name: country, data_type: varchar}
+      - {name: country_code, data_type: varchar}
+      - {name: is_domestic, data_type: boolean}
+      - {name: first_purchase_date, data_type: date}
+      - {name: lifetime_purchases, data_type: integer}
+      - {name: lifetime_consignments, data_type: integer}
+      - name: customer_role
+        data_type: varchar
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [Buyer, Consignor, Buyer and consignor, Prospect]
+
+  - name: fct_sales
+    description: One row per piece sold.
+    columns:
+      - name: sale_id
+        data_type: varchar
+        constraints: [{type: primary_key}, {type: not_null}]
+        data_tests: [unique, not_null]
+      - name: inventory_id
+        data_type: varchar
+        data_tests: [unique, not_null, {relationships: {arguments: {to: ref('dim_product'), field: inventory_id}}}]
+      - name: customer_id
+        data_type: varchar
+        data_tests: [not_null, {relationships: {arguments: {to: ref('dim_customer'), field: customer_id}}}]
+      - name: location_id
+        data_type: varchar
+        description: Where the sale was booked.
+        data_tests: [not_null, {relationships: {arguments: {to: ref('dim_location'), field: location_id}}}]
+      - {name: stock_pool_location_id, data_type: varchar, description: Which stock the piece came from.}
+      - {name: sale_date, data_type: date, data_tests: [not_null]}
+      - {name: payment_type, data_type: varchar}
+      - {name: delivery_type, data_type: varchar}
+      - {name: net_sales_amount, data_type: "decimal(18,2)", description: Sale price after negotiated discount, USD.}
+      - {name: cost_of_goods_sold, data_type: "decimal(18,2)", description: What Atelier Row paid the consignor, USD.}
+      - {name: gross_margin_amount, data_type: "decimal(18,2)"}
+      - {name: days_to_sell, data_type: bigint, description: Days from reaching the floor to sale.}
+      - {name: is_comp_day, data_type: boolean, description: True when the selling location was in the comp base on the sale date.}
+
+  - name: fct_purchases
+    description: One row per buy-in from a consignor, including pieces still in authentication.
+    columns:
+      - name: purchase_id
+        data_type: varchar
+        constraints: [{type: primary_key}, {type: not_null}]
+        data_tests: [unique, not_null]
+      - {name: inventory_id, data_type: varchar, data_tests: [unique, not_null]}
+      - {name: customer_id, data_type: varchar}
+      - {name: location_id, data_type: varchar}
+      - {name: purchase_date, data_type: date}
+      - {name: acquisition_cost, data_type: "decimal(18,2)"}
+      - name: pipeline_stage
+        data_type: varchar
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [Contract Completed, Authentication, Customer Paid, Available to Stock]
+      - {name: is_stocked, data_type: boolean}
+      - {name: floor_date, data_type: date, description: First day the piece was on hand. Null while it is still in the pipeline.}
+      - {name: days_purchase_to_floor, data_type: bigint}
+
+  - name: fct_comp_sales_daily
+    description: >
+      One row per selling location per day, with this year's net sales next to the same calendar date last
+      year. The comp flag belongs to this year's row, so both years always use the same store set.
+    columns:
+      - name: location_day_id
+        data_type: varchar
+        constraints: [{type: primary_key}, {type: not_null}]
+        data_tests: [unique, not_null]
+      - {name: location_id, data_type: varchar, data_tests: [{relationships: {arguments: {to: ref('dim_location'), field: location_id}}}]}
+      - {name: sale_date, data_type: date}
+      - {name: ly_date, data_type: date, description: Same calendar date one year earlier.}
+      - {name: is_comp, data_type: boolean}
+      - {name: ty_net_sales_amount, data_type: "decimal(18,2)"}
+      - {name: ly_net_sales_amount, data_type: "decimal(18,2)"}
+      - {name: ty_units_sold, data_type: integer}
+      - {name: ly_units_sold, data_type: integer}
+
+  - name: fct_inventory_daily
+    description: >
+      Stock position per stock pool, model category and day. opening + received - sold = closing, and
+      today's closing is tomorrow's opening. Online sells from the New York pool.
+    columns:
+      - name: inventory_day_id
+        data_type: varchar
+        constraints: [{type: primary_key}, {type: not_null}]
+        data_tests: [unique, not_null]
+      - {name: inventory_date, data_type: date}
+      - {name: stock_pool_location_id, data_type: varchar, data_tests: [{relationships: {arguments: {to: ref('dim_location'), field: location_id}}}]}
+      - {name: model_category, data_type: varchar}
+      - {name: opening_units, data_type: integer, description: Pieces on hand at the start of the day.}
+      - {name: received_units, data_type: integer, description: Pieces that reached the floor that day.}
+      - {name: sold_units, data_type: integer}
+      - {name: closing_units, data_type: integer, description: Pieces on hand at the end of the day.}
+      - {name: closing_cost_amount, data_type: "decimal(18,2)", description: Cost value of closing stock.}
+      - {name: aged_closing_units, data_type: integer, description: Closing pieces that have been on the floor more than 90 days.}

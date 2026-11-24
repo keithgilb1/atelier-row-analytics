@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: metricflow_time_spine
+    description: Day-grain time spine for the semantic layer, with fiscal year and fiscal quarter as custom granularities.
+    time_spine:
+      standard_granularity_column: date_day
+      custom_granularities:
+        - name: fiscal_year
+        - name: fiscal_quarter
+    columns:
+      - name: date_day
+        granularity: day
+      - name: fiscal_year
+      - name: fiscal_quarter

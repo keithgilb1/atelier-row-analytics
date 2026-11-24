@@ -1,0 +1,83 @@
+name: atelier-analytics
+
+on:
+  pull_request:
+    paths:
+      - "atelier_analytics/**"
+      - "generator/**"
+      - ".github/workflows/atelier-analytics.yml"
+  push:
+    branches: [main]
+    paths:
+      - "atelier_analytics/**"
+      - "generator/**"
+  workflow_dispatch:
+
+concurrency:
+  group: atelier-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: atelier_analytics
+    env:
+      DBT_SEND_ANONYMOUS_USAGE_STATS: "false"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: atelier_analytics/requirements.txt
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      - name: Generate the warehouse (seed 42)
+        run: make data
+
+      - name: dbt build (models, contracts, data tests, unit tests)
+        run: make build
+
+      - name: Validate the semantic layer
+        run: make validate
+
+      - name: Export the dashboard datasets
+        run: make scorecard
+
+      - name: Guardrail, agent loop and metric parity tests
+        run: python -m pytest -s
+
+      - name: Build dbt docs
+        run: make docs
+
+      - name: Publish the scorecard in the job summary
+        if: always()
+        run: |
+          {
+            echo "### Executive scorecard (from the semantic layer)"
+            echo '```'
+            column -s, -t < exports/executive_scorecard.csv || cat exports/executive_scorecard.csv
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: atelier-analytics
+          path: |
+            atelier_analytics/exports/
+            atelier_analytics/target/index.html
+            atelier_analytics/target/manifest.json
+            atelier_analytics/target/catalog.json
+            atelier_analytics/target/semantic_manifest.json
+            atelier_analytics/target/run_results.json
+          retention-days: 14

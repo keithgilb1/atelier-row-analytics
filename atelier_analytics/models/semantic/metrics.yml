@@ -1,0 +1,161 @@
+version: 2
+
+metrics:
+  # ---- Sales ----
+  - name: net_sales
+    label: Net sales
+    description: Sale price after negotiated discount, USD, by sale date.
+    type: simple
+    type_params: {measure: net_sales}
+    config: {meta: {owner: Commercial Analytics, certified: true}}
+
+  - name: units_sold
+    label: Units sold
+    description: Pieces sold.
+    type: simple
+    type_params: {measure: units_sold}
+    config: {meta: {owner: Commercial Analytics, certified: true}}
+
+  - name: gross_margin
+    label: Gross margin
+    description: Net sales minus what was paid to the consignor, USD.
+    type: simple
+    type_params: {measure: gross_margin}
+    config: {meta: {owner: Commercial Analytics, certified: true}}
+
+  - name: gross_margin_pct
+    label: Gross margin %
+    description: Gross margin / net sales.
+    type: ratio
+    type_params: {numerator: gross_margin, denominator: net_sales}
+    config: {meta: {owner: Commercial Analytics, certified: true}}
+
+  - name: average_selling_price
+    label: Average selling price
+    description: Net sales / units sold.
+    type: ratio
+    type_params: {numerator: net_sales, denominator: units_sold}
+    config: {meta: {owner: Commercial Analytics, certified: true}}
+
+  - name: average_days_to_sell
+    label: Average days to sell
+    description: Mean days from reaching the floor to sale, for pieces sold in the period.
+    type: derived
+    type_params:
+      expr: total_days_to_sell / units_sold
+      metrics:
+        - name: total_days_to_sell
+        - name: units_sold
+    config: {meta: {owner: Merchandising, certified: true}}
+
+  - name: total_days_to_sell
+    label: Total days to sell
+    description: Helper for average_days_to_sell.
+    type: simple
+    type_params: {measure: total_days_to_sell}
+    config: {meta: {owner: Merchandising, certified: false}}
+
+  # ---- Comparable sales ----
+  - name: comp_sales_ty
+    label: Comp sales (this year)
+    description: Net sales on comp days, all channels.
+    type: simple
+    type_params: {measure: comp_sales_ty}
+    config: {meta: {owner: Finance, certified: true}}
+
+  - name: comp_sales_ly
+    label: Comp sales (last year)
+    description: Net sales on the matching days last year, same location set.
+    type: simple
+    type_params: {measure: comp_sales_ly}
+    config: {meta: {owner: Finance, certified: true}}
+
+  - name: comp_sales_growth
+    label: Comp sales growth
+    description: >
+      Comparable sales growth, all channels including online. comp_sales_ty / comp_sales_ly - 1.
+      A location is comp after 13 full fiscal months open and only on days whose same calendar date last
+      year is in history. Year-to-date periods compare the same days in both years.
+    type: derived
+    type_params:
+      expr: ty / ly - 1
+      metrics:
+        - {name: comp_sales_ty, alias: ty}
+        - {name: comp_sales_ly, alias: ly}
+    config: {meta: {owner: Finance, certified: true}}
+
+  - name: comp_store_sales_growth
+    label: Comp store sales growth
+    description: >
+      Comparable sales growth for physical boutiques only (excludes Online). This is the headline comp
+      figure reported to leadership.
+    type: derived
+    type_params:
+      expr: ty / ly - 1
+      metrics:
+        - name: comp_sales_ty
+          alias: ty
+          filter: "{{ Dimension('location__channel') }} = 'Store'"
+        - name: comp_sales_ly
+          alias: ly
+          filter: "{{ Dimension('location__channel') }} = 'Store'"
+    config: {meta: {owner: Finance, certified: true}}
+
+  # ---- Inventory ----
+  - name: opening_units
+    label: Opening units on hand
+    type: simple
+    type_params: {measure: opening_units}
+    config: {meta: {owner: Merchandising, certified: true}}
+
+  - name: received_units
+    label: Units received
+    type: simple
+    type_params: {measure: received_units}
+    config: {meta: {owner: Merchandising, certified: true}}
+
+  - name: inventory_sold_units
+    label: Units sold from stock
+    description: Units sold, counted by the stock pool they shipped from.
+    type: simple
+    type_params: {measure: inventory_sold_units}
+    config: {meta: {owner: Merchandising, certified: true}}
+
+  - name: units_on_hand
+    label: Units on hand (end of period)
+    type: simple
+    type_params: {measure: closing_units}
+    config: {meta: {owner: Merchandising, certified: true}}
+
+  - name: inventory_cost_on_hand
+    label: Inventory cost on hand (end of period)
+    type: simple
+    type_params: {measure: closing_cost}
+    config: {meta: {owner: Merchandising, certified: true}}
+
+  - name: aged_units_on_hand
+    label: Aged units on hand (over 90 days)
+    type: simple
+    type_params: {measure: aged_closing_units}
+    config: {meta: {owner: Merchandising, certified: true}}
+
+  - name: sell_through_rate
+    label: Sell-through rate
+    description: >
+      Units sold / (units on hand at the start of the period + units received in the period).
+      Measured by stock pool, so online sales count against New York stock.
+    type: derived
+    type_params:
+      expr: sold / (opening + received)
+      metrics:
+        - {name: inventory_sold_units, alias: sold}
+        - {name: opening_units, alias: opening}
+        - {name: received_units, alias: received}
+    config: {meta: {owner: Merchandising, certified: true}}
+
+  - name: aged_inventory_share
+    label: Aged inventory share
+    description: Share of end-of-period units that have been on the floor more than 90 days.
+    type: ratio
+    type_params: {numerator: aged_units_on_hand, denominator: units_on_hand}
+    config: {meta: {owner: Merchandising, certified: true}}

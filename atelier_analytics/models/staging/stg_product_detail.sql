@@ -1,0 +1,21 @@
+select
+    inventory_id,
+    brand,
+    model_category,
+    model,
+    model_category || ' ' || model as model_name,
+    nullif(trim(special_model_name), '') as special_model_name,
+    model_year,
+    color,
+    color_family,
+    leather,
+    leather_type,
+    leather_type <> 'Standard' as is_exotic,
+    has_cites,
+    hardware,
+    sellier_retourne,
+    is_verso,
+    condition,
+    condition in ('New', 'Full Set') as is_box_fresh,
+    nullif(trim(notes), '') as notes
+from {{ source('raw', 'product_detail') }}

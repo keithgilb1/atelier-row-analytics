@@ -1,0 +1,14 @@
+# Run from this folder: dbt build --profiles-dir .
+# The generated warehouse is attached read-only as `raw`. dbt only writes to atelier_analytics.duckdb.
+atelier_row:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('ATELIER_DBT_DB', 'atelier_analytics.duckdb') }}"
+      schema: main
+      threads: 4
+      attach:
+        - path: "{{ env_var('ATELIER_RAW_DB', '../generator/atelier_row_data/atelier_row.duckdb') }}"
+          alias: raw
+          read_only: true

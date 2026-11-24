@@ -1,0 +1,76 @@
+version: 2
+
+models:
+  - name: int_pieces
+    description: One row per piece acquired, joining buy-in, floor date and sale.
+    columns:
+      - name: inventory_id
+        data_tests: [unique, not_null]
+  - name: int_location_days
+    description: One row per selling location per day of history, with its comp-store status. The comp rule lives here and only here.
+    data_tests:
+      - unique_combination_of_columns:
+          arguments:
+            columns: [location_id, calendar_date]
+
+unit_tests:
+  - name: comp_rule_new_store_waits_13_full_months
+    description: A store opened mid-month joins the comp base 13 full months after its first full month.
+    model: int_location_days
+    overrides:
+      vars: {history_start_date: '2021-06-01', as_of_date: '2026-11-21', comp_months_open: 13}
+    given:
+      - input: ref('stg_locations')
+        rows:
+          - {location_id: LOC-DAL, open_date: 2025-03-15, close_date: null}
+      - input: ref('stg_calendar')
+        rows:
+          - {calendar_date: 2025-03-15}
+          - {calendar_date: 2026-04-30}
+          - {calendar_date: 2026-05-01}
+    expect:
+      rows:
+        - {location_id: LOC-DAL, calendar_date: 2025-03-15, comp_start_date: 2026-05-01, is_comp: false}
+        - {location_id: LOC-DAL, calendar_date: 2026-04-30, comp_start_date: 2026-05-01, is_comp: false}
+        - {location_id: LOC-DAL, calendar_date: 2026-05-01, comp_start_date: 2026-05-01, is_comp: true}
+
+  - name: comp_rule_needs_last_year_in_history_and_skips_leap_day
+    description: An established store is not comp until the same date last year is in history, and 29 February is never comp.
+    model: int_location_days
+    overrides:
+      vars: {history_start_date: '2021-06-01', as_of_date: '2026-11-21', comp_months_open: 13}
+    given:
+      - input: ref('stg_locations')
+        rows:
+          - {location_id: LOC-NYC, open_date: 2016-03-01, close_date: null}
+      - input: ref('stg_calendar')
+        rows:
+          - {calendar_date: 2022-05-31}
+          - {calendar_date: 2022-06-01}
+          - {calendar_date: 2024-02-29}
+          - {calendar_date: 2024-03-01}
+    expect:
+      rows:
+        - {location_id: LOC-NYC, calendar_date: 2022-05-31, is_comp: false}
+        - {location_id: LOC-NYC, calendar_date: 2022-06-01, is_comp: true}
+        - {location_id: LOC-NYC, calendar_date: 2024-02-29, is_comp: false}
+        - {location_id: LOC-NYC, calendar_date: 2024-03-01, is_comp: true}
+
+  - name: comp_rule_closed_store_leaves_comp_base
+    description: A store leaves the comp base on its close date and has no rows after it.
+    model: int_location_days
+    overrides:
+      vars: {history_start_date: '2021-06-01', as_of_date: '2026-11-21', comp_months_open: 13}
+    given:
+      - input: ref('stg_locations')
+        rows:
+          - {location_id: LOC-SF, open_date: 2018-01-01, close_date: 2025-01-01}
+      - input: ref('stg_calendar')
+        rows:
+          - {calendar_date: 2024-12-31}
+          - {calendar_date: 2025-01-01}
+          - {calendar_date: 2025-01-02}
+    expect:
+      rows:
+        - {location_id: LOC-SF, calendar_date: 2024-12-31, is_comp: true}
+        - {location_id: LOC-SF, calendar_date: 2025-01-01, is_comp: false}

@@ -1,0 +1,34 @@
+version: 2
+
+# The executive scorecard is defined here once, as a saved query. The BI export reads it with
+# `mf query --saved-query executive_scorecard`, which is the same path a dashboard connector uses.
+saved_queries:
+  - name: executive_scorecard
+    label: Executive scorecard by fiscal year
+    description: Headline commercial metrics by fiscal year, as shown on the leadership dashboard.
+    query_params:
+      metrics:
+        - net_sales
+        - units_sold
+        - gross_margin_pct
+        - average_selling_price
+        - comp_store_sales_growth
+        - comp_sales_growth
+        - average_days_to_sell
+      group_by:
+        - TimeDimension('metric_time', 'fiscal_year')
+      order_by:
+        - TimeDimension('metric_time', 'fiscal_year')
+
+  - name: inventory_health
+    label: Inventory health by fiscal year and stock pool
+    description: Sell-through, stock on hand and aged stock for each stock pool by fiscal year.
+    query_params:
+      metrics:
+        - sell_through_rate
+        - units_on_hand
+        - aged_inventory_share
+        - inventory_cost_on_hand
+      group_by:
+        - TimeDimension('metric_time', 'fiscal_year')
+        - Dimension('stock_pool__stock_pool_name')

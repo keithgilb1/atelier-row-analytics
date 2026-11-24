@@ -1,0 +1,11 @@
+# Pinned so the build is reproducible. Python 3.11+.
+dbt-core==1.12.7
+dbt-duckdb==1.11.1
+dbt-metricflow==0.16.0
+metricflow==0.214.0
+duckdb==2.0.1
+numpy==2.5.5
+pandas==3.1.1
+sqlglot==30.34.0
+anthropic==2.13.0
+pytest==9.2.0

@@ -1,0 +1,10 @@
+[project]
+name = "atelier-analytics"
+version = "1.0.0"
+description = "Governed analytics for Atelier Row: dbt + DuckDB, a MetricFlow semantic layer, and an AI analyst agent."
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["python_tests", "parity"]
+pythonpath = ["."]
+addopts = "-q"
